@@ -5,6 +5,7 @@ import LoginScreen from '../screens/auth/login';
 import { RootStackParamList } from './screen_navigation_props';
 import { useState } from 'react';
 import { setNavigationRef } from './navigation_service';
+import TabNavigation from './tab_navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,6 +17,7 @@ const StackNavigation = (): JSX.Element => {
   return <NavigationContainer ref={navigationRef} onReady={() => setNavigationRef(navigationRef.current)}>
     <Stack.Navigator initialRouteName={isLogin ? 'HomeBottomBarNavigation' : 'Login'}>
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="HomeBottomBarNavigation" component={TabNavigation} />
     </Stack.Navigator>
   </NavigationContainer>
 };

@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSelector } from '../../redux/slices/user_slice';
+import { RootProps } from '../../navigations/screen_navigation_props';
+import { login } from '../../actions/user_actions';
+import { DispatchThunk } from '../../redux/store/store';
 
-const LoginScreen = () => {
+const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch: DispatchThunk = useDispatch();
+  const error = useSelector(userSelector).error;
 
   const handleLogin = () => {
-    // Implement your login logic here
+    dispatch(login(email, password));
   };
 
   return (
@@ -20,13 +27,14 @@ const LoginScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
-        secureTextEntry
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({

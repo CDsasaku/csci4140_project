@@ -17,7 +17,7 @@ type RootProps<T extends keyof RootStackParamList> = {
 
 type RootStackParamList = {
   //auth
-  Login: { share_id: string };
+  Login: undefined;
   Register: undefined;
   EmailVerification: {isEdit: boolean};
   ForgetPassword: undefined;
