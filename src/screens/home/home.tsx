@@ -2,7 +2,7 @@ import React from 'react';
 import { RootProps } from '../../navigations/screen_navigation_props';
 import { Button, TextInput, View } from 'react-native';
 
-const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
+const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
     
   return (
     <View>
@@ -10,4 +10,4 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
   );
 };
 
-export default ProfileScreen;
+export default HomeScreen;

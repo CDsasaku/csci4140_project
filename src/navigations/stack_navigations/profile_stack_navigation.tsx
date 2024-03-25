@@ -7,7 +7,9 @@ const ProfileProps = createStackNavigator<RootStackParamList>();
 
 export const ProfileStackNavigation = () => {
   return (
-    <ProfileProps.Navigator>
+    <ProfileProps.Navigator initialRouteName='Profile' screenOptions={{
+      headerShown: false,
+    }}>
       <ProfileProps.Screen name="Profile" component={ProfileScreen} />
     </ProfileProps.Navigator>
   );

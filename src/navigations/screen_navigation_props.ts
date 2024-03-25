@@ -24,15 +24,23 @@ type RootStackParamList = {
   ResetPassword: { user_id: number; passcode: string };
   HomeBottomBarNavigation: undefined;
 
-  //profile
-  Profile: undefined;
+  //home
+  Home: undefined;
+
+  //conversation
+  Message: undefined;
 
   //notification
   Notification: undefined;
 
+  //profile
+  Profile: undefined;
+
   //stack
-  ProfileStack: undefined;
+  HomeStack: undefined;
+  MessageStack: undefined;
   NotificationStack: undefined;
+  ProfileStack: undefined;
 };
 
 export type { RootProps, RootStackParamList };

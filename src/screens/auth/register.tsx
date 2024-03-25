@@ -3,23 +3,18 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
-import { login } from '../../actions/user_actions';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 
-const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
+const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch: DispatchThunk = useDispatch();
   const error = useSelector(userSelector).error;
 
-  const handleLogin = () => {
-    // dispatch(login(email, password));
-    navigate('HomeBottomBarNavigation');
-  };
-
   const handleRegister = () => {
-    navigate('Register');
+    // dispatch(register(email, password));
+    navigate('Profile');
   };
 
   return (
@@ -37,7 +32,6 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Login" onPress={handleLogin} />
       <Button title="Register" onPress={handleRegister} />
     </View>
   );
@@ -61,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
