@@ -10,6 +10,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { HomeStackNavigation } from './stack_navigations/home_stack_navigation';
 import { MessageStackNavigation } from './stack_navigations/message_stack_navigation';
 import { NotificationStackNavigation } from './stack_navigations/notification_stack_navigation';
+import CustomText from '../components/atoms/text';
 
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -17,7 +18,7 @@ const Tab = createBottomTabNavigator<RootStackParamList>();
 const TabNavigation: React.FC<RootProps<'HomeBottomBarNavigation'>> = (props) => {
 
   return (
-    <Tab.Navigator initialRouteName="ProfileStack"
+    <Tab.Navigator initialRouteName="HomeStack"
       screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
         // headerShown: false,
@@ -30,23 +31,23 @@ const TabNavigation: React.FC<RootProps<'HomeBottomBarNavigation'>> = (props) =>
         tabBarLabelStyle: {
           fontSize: 14,
         },
-        tabBarActiveTintColor: g_THEME.colors.lightGrey,
+        tabBarActiveTintColor: g_THEME.colors.greyGreen,
         tabBarInactiveTintColor: g_THEME.colors.blue,
         tabBarLabel: ({ focused }) => {
-          let color = focused ? g_THEME.colors.lightGrey : g_THEME.colors.blue;
+          let color = focused ? g_THEME.colors.greyGreen : g_THEME.colors.blue;
           let name = getName(route.name);
 
-          return <Text style={{ color }}>{name}</Text>;
+          return <CustomText color={color}>{name}</CustomText>;
         },
         tabBarIcon: ({ focused }) => {
-          let color = focused ? g_THEME.colors.lightGrey : g_THEME.colors.blue;
+          let color = focused ? g_THEME.colors.greyGreen : g_THEME.colors.blue;
           let name = getIconName(route.name);
 
           return <MaterialIcons name={name} size={24} color={color} />;
         },
         header(props) {
           let name = getName(route.name);
-          return <Text style={styles.header}>{name}</Text>;
+          return <CustomText padding={10} size={18} textAlign='center'>{name}</CustomText>;
         },
       })}>
       <Tab.Screen name="HomeStack" component={HomeStackNavigation} />
@@ -86,14 +87,5 @@ function getIconName(name: string): string {
       return '';
   }
 }
-
-const styles = StyleSheet.create({
-  header: {
-    alignSelf: 'center',
-    fontSize: 18,
-    padding: 10,
-    color: 'black',
-  },
-});
 
 export default TabNavigation;

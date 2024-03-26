@@ -16,7 +16,12 @@ const StackNavigation = (): JSX.Element => {
   const navigationRef = React.useRef<NavigationContainerRef<RootStackParamList> | null>(null);
 
   return <NavigationContainer ref={navigationRef} onReady={() => setNavigationRef(navigationRef.current)}>
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLogin ? 'HomeBottomBarNavigation' : 'Login'}>
+    <Stack.Navigator screenOptions={{
+      headerShown: false,
+      contentStyle: {
+        backgroundColor: 'white',
+      }
+    }} initialRouteName={isLogin ? 'HomeBottomBarNavigation' : 'Login'}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="HomeBottomBarNavigation" component={TabNavigation} />
       <Stack.Screen name="Register" component={RegisterScreen} />
