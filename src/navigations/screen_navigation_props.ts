@@ -26,6 +26,8 @@ type RootStackParamList = {
 
   //home
   Home: undefined;
+  ProductDetail: { product_id: number };
+  AddProduct: undefined;
 
   //conversation
   Message: undefined;

@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import { RootProps } from '../../navigations/screen_navigation_props';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
-import Container from '../../components/atoms/container';
-import TextField from '../../components/molecules/text_field';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import SearchBar from '../../components/organisms/search_bar';
 import CustomText from '../../components/atoms/text';
 import Row from '../../components/atoms/row';
 import g_THEME from '../../theme/theme';
-import { screenHeight, screenWidth } from '../../constants/screen_dimension';
 import RoundButton from '../../components/molecules/round_button';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Product from '../../components/organisms/product';
+import IconButton from '../../components/atoms/icon_button';
 
 const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
-
   const [type, setType] = useState('Featured');
 
   const handleType = (type: string) => {
     setType(type);
   }
 
+  const handleProduct = (productId: number) => {
+    console.log("Test");
+    props.navigation.navigate('ProductDetail', { product_id: productId });
+  }
+
   return (
+    <View>
     <ScrollView contentContainerStyle={styles.container}>
       <SearchBar text='Search here'></SearchBar>
       <Row justifyContent='space-between'>
@@ -44,13 +47,19 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
           scrollEnabled={false}
           data={['All', 'Clothes', 'Shoes', 'Bags', 'Accessories']}
           renderItem={({ item }) =>
+          <TouchableOpacity style={styles.product} onPress={() => handleProduct(1)}>
               <Product text={item}></Product>
+          </TouchableOpacity>
           }
           numColumns={2}>
         </FlatList>
       </View>
 
     </ScrollView>
+      <View style={styles.add}>
+      <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={() => props.navigation.navigate('AddProduct')}></IconButton>
+      </View>
+      </View>
   );
 };
 
@@ -65,6 +74,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: g_THEME.colors.lightGrey,
   },
+  product: {
+    flex: 0.5
+  },
+  add: {
+    position: 'absolute',
+    right: 15,
+    bottom: 15,
+  }
 });
 
 
