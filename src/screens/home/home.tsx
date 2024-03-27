@@ -22,6 +22,10 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
     props.navigation.navigate('ProductDetail', { product_id: productId });
   }
 
+  const handleAdd = () => {
+    props.navigation.navigate('AddOrEditProduct', { product_id: 0 });
+  }
+
   return (
     <View>
     <ScrollView contentContainerStyle={styles.container}>
@@ -57,7 +61,7 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
 
     </ScrollView>
       <View style={styles.add}>
-      <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={() => props.navigation.navigate('AddProduct')}></IconButton>
+      <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={handleAdd}></IconButton>
       </View>
       </View>
   );
