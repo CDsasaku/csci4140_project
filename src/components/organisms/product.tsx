@@ -3,20 +3,20 @@ import { Image, StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { screenWidth } from '../../constants/screen_dimension';
 import CustomText from '../atoms/text';
-import Container from '../atoms/container';
 import g_THEME from '../../theme/theme';
+import { Item } from '../../models/item';
 
 interface ProductProps {
-  text: string;
+  item: Item
 }
 
-const Product: React.FC<ProductProps> = ({ text }) => {
+const Product: React.FC<ProductProps> = ({ item }) => {
 
   return (
     <View style={styles.product}>
       <Image source={require('../../assets/corgi.jpg')} style={styles.photo} />
-      <CustomText>{text}</CustomText>
-      <CustomText>post creator</CustomText>
+      <CustomText>{item.name}</CustomText>
+      <CustomText>{item.User.username}</CustomText>
     </View>
   );
 };

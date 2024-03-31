@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootProps } from '../../navigations/screen_navigation_props';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import SearchBar from '../../components/organisms/search_bar';
@@ -9,9 +9,20 @@ import RoundButton from '../../components/molecules/round_button';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Product from '../../components/organisms/product';
 import IconButton from '../../components/atoms/icon_button';
+import { DispatchThunk } from '../../redux/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import itemAction from '../../redux/actions/item_actions';
+import { itemSelector } from '../../redux/slices/item_slice';
+import apis from '../../api/api_service';
 
 const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
+  const dispatch: DispatchThunk = useDispatch();
+  const items = useSelector(itemSelector).items;
   const [type, setType] = useState('Featured');
+
+  useEffect(() => {
+    dispatch(itemAction.getItem());
+  }, []);
 
   const handleType = (type: string) => {
     setType(type);
@@ -49,10 +60,10 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
         </Row>
         <FlatList
           scrollEnabled={false}
-          data={['All', 'Clothes', 'Shoes', 'Bags', 'Accessories']}
+          data={items}
           renderItem={({ item }) =>
           <TouchableOpacity style={styles.product} onPress={() => handleProduct(1)}>
-              <Product text={item}></Product>
+              <Product item={item}></Product>
           </TouchableOpacity>
           }
           numColumns={2}>

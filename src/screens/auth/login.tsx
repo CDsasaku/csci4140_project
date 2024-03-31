@@ -3,7 +3,7 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
-import { login } from '../../actions/user_actions';
+import userAction from '../../redux/actions/user_actions';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 
@@ -14,7 +14,7 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const error = useSelector(userSelector).error;
 
   const handleLogin = () => {
-    // dispatch(login(email, password));
+    // dispatch(userAction.login(email, password));
     navigate('HomeBottomBarNavigation');
   };
 
