@@ -116,7 +116,7 @@ const TextField: React.FC<TextFieldProps> = ({ text, onChange, hint, onPress, on
             </Container>
             {error != null && error.length != 0 &&
                 <View style={{ paddingLeft: 15 }}>
-                    <CustomText color='red' size={12}>{error}</CustomText>
+                    <CustomText color={g_THEME.colors.error} size={16}>{error}</CustomText>
                 </View>}
         </View>
     );

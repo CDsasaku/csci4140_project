@@ -5,6 +5,7 @@ import { screenWidth } from '../../constants/screen_dimension';
 import CustomText from '../atoms/text';
 import g_THEME from '../../theme/theme';
 import { Item as ItemType } from '../../models/item';
+import { API_ENDPOINT } from '../../api/apiConfig';
 
 interface ItemProps {
   item: ItemType
@@ -14,7 +15,8 @@ const Item: React.FC<ItemProps> = ({ item }) => {
 
   return (
     <View style={styles.item}>
-      <Image source={require('../../assets/corgi.jpg')} style={styles.photo} />
+      {/* <Image source={require('../../assets/corgi.jpg')} style={styles.photo} /> */}
+      <Image source={{ uri: API_ENDPOINT + item?.image }} style={styles.photo} />
       <CustomText>{item.name}</CustomText>
       <CustomText>{item.User.username}</CustomText>
     </View>

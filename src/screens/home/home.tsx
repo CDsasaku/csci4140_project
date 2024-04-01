@@ -33,7 +33,7 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   }
 
   const handleAdd = () => {
-    props.navigation.navigate('AddOrEditItem', { isEdit: false});
+    props.navigation.navigate('AddOrEditItem', { isEdit: false });
   }
 
   return (

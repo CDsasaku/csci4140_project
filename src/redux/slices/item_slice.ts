@@ -3,14 +3,14 @@ import { Item } from '../../models/item';
 import { RootState } from './root_reducers';
 
 interface ItemState {
-  items: Item[] | null;
+  items: Item[];
   item: Item | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ItemState = {
-  items: null,
+  items: [],
   item: null,
   loading: false,
   error: null,
@@ -51,6 +51,22 @@ const itemSlice = createSlice({
       state.error = action.payload;
     },
 
+    // create item
+    createItemStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    createItemSuccess: (state, action: PayloadAction<Item>) => {
+      state.item = action.payload;
+      state.items.push(action.payload);
+      state.loading = false;
+      state.error = null;
+    },
+    createItemFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     // update item
     updateItemStart: (state) => {
       state.loading = true;
@@ -58,6 +74,7 @@ const itemSlice = createSlice({
     },
     updateItemSuccess: (state, action: PayloadAction<Item>) => {
       state.item = action.payload;
+      state.items = state.items.map((item) => item.id === action.payload.id ? action.payload : item);
       state.loading = false;
       state.error = null;
     },
@@ -66,6 +83,19 @@ const itemSlice = createSlice({
       state.error = action.payload;
     },
 
+    deleteItemStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteItemSuccess: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.loading = false;
+      state.error = null;
+    },
+    deleteItemFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
 
   },
 });
@@ -77,9 +107,15 @@ export const {
   getItemStart,
   getItemSuccess,
   getItemFailure,
+  createItemStart,
+  createItemSuccess,
+  createItemFailure,
   updateItemStart,
   updateItemSuccess,
   updateItemFailure,
+  deleteItemStart,
+  deleteItemSuccess,
+  deleteItemFailure,
 } = itemSlice.actions;
 
 export const itemSelector = (state: RootState) => state.item;

@@ -1,4 +1,5 @@
 
+import { Asset } from 'react-native-image-picker';
 import { Item } from '../models/item';
 import APIs from './api';
 
@@ -51,23 +52,35 @@ class ItemApi {
         name: string,
         description: string,
         condition: string,
-        image: string,
+        image: Asset,
         uid: number,
-        ): Promise<Item> => {
+        wishlist: string,
+    ): Promise<Item> => {
         return new Promise(async (resolve, reject) => {
             try {
-                const jsonData = {
-                    name: name,
-                    description: description,
-                    condition: condition,
-                    image: image,
-                    uid: uid,
-                };
 
-                await this.item.api.post(this.api, jsonData)
+                const formData = new FormData();
+                formData.append('img', {
+                    uri: image.uri,
+                    name: image.fileName,
+                    type: image.type,
+                });
+                formData.append('name', name);
+                formData.append('description', description);
+                formData.append('condition', condition);
+                formData.append('uid', uid.toString());
+                formData.append('wishlist', wishlist);
+
+
+                await this.item.api.post(this.api, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+                )
                     .then((response) => {
-                        const result = response.data;
-                        resolve(result.data.item);
+                        const result = response.data.item;
+                        resolve(result);
                     })
                     .catch((error) => {
                         const result = error.response.data;
@@ -84,23 +97,36 @@ class ItemApi {
         name: string,
         description: string,
         condition: string,
-        image: string,
         uid: number,
-        ): Promise<Item> => {
+        wishlist: string,
+        image?: Asset,
+    ): Promise<Item> => {
         return new Promise(async (resolve, reject) => {
             try {
-                const jsonData = {
-                    name: name,
-                    description: description,
-                    condition: condition,
-                    image: image,
-                    uid: uid,
-                };
+                
+                const formData = new FormData();
+                if(image) {
+                    formData.append('img', {
+                        uri: image.uri,
+                        name: image.fileName,
+                        type: image.type,
+                    });
+                }
+                formData.append('name', name);
+                formData.append('description', description);
+                formData.append('condition', condition);
+                formData.append('uid', uid.toString());
+                formData.append('wishlist', wishlist);
 
-                await this.item.api.put(this.api + id, jsonData)
+
+                await this.item.api.put(this.api + id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                     .then((response) => {
-                        const result = response.data;
-                        resolve(result.data.item);
+                        const result = response.data.item;
+                        resolve(result);
                     })
                     .catch((error) => {
                         const result = error.response.data;
@@ -117,8 +143,8 @@ class ItemApi {
             try {
                 await this.item.api.delete(this.api + id)
                     .then((response) => {
-                        const result = response.data;
-                        resolve(result.data.item);
+                        const result = response.data.message;
+                        resolve(result);
                     })
                     .catch((error) => {
                         const result = error.response.data;
