@@ -7,13 +7,12 @@ import Row from '../../components/atoms/row';
 import g_THEME from '../../theme/theme';
 import RoundButton from '../../components/molecules/round_button';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import Product from '../../components/organisms/product';
+import Item from '../../components/organisms/item';
 import IconButton from '../../components/atoms/icon_button';
 import { DispatchThunk } from '../../redux/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import itemAction from '../../redux/actions/item_actions';
 import { itemSelector } from '../../redux/slices/item_slice';
-import apis from '../../api/api_service';
 
 const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   const dispatch: DispatchThunk = useDispatch();
@@ -21,20 +20,20 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   const [type, setType] = useState('Featured');
 
   useEffect(() => {
-    dispatch(itemAction.getItem());
+    dispatch(itemAction.getItems());
   }, []);
 
   const handleType = (type: string) => {
     setType(type);
   }
 
-  const handleProduct = (productId: number) => {
+  const handleItem = (itemId: number) => {
     console.log("Test");
-    props.navigation.navigate('ProductDetail', { product_id: productId });
+    props.navigation.navigate('ItemDetail', { item_id: itemId });
   }
 
   const handleAdd = () => {
-    props.navigation.navigate('AddOrEditProduct', { product_id: 0 });
+    props.navigation.navigate('AddOrEditItem', { isEdit: false});
   }
 
   return (
@@ -55,15 +54,15 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
       ></FlatList>
       <View style={styles.bottomContainer}>
         <Row justifyContent='space-around'>
-          <CustomText size={16} padding={15} focused={type == 'Featured'} onPress={() => handleType('Featured')}>Featured Product</CustomText>
-          <CustomText size={16} padding={15} focused={type == 'Top'} onPress={() => handleType('Top')}>Top Rated Product</CustomText>
+          <CustomText size={16} padding={15} focused={type == 'Featured'} onPress={() => handleType('Featured')}>Featured Item</CustomText>
+          <CustomText size={16} padding={15} focused={type == 'Top'} onPress={() => handleType('Top')}>Top Rated Item</CustomText>
         </Row>
         <FlatList
           scrollEnabled={false}
           data={items}
           renderItem={({ item }) =>
-          <TouchableOpacity style={styles.product} onPress={() => handleProduct(1)}>
-              <Product item={item}></Product>
+          <TouchableOpacity style={styles.item} onPress={() => handleItem(item.id)}>
+              <Item item={item}></Item>
           </TouchableOpacity>
           }
           numColumns={2}>
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: g_THEME.colors.lightGrey,
   },
-  product: {
+  item: {
     flex: 0.5
   },
   add: {

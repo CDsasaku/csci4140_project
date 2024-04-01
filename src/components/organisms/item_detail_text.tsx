@@ -6,11 +6,11 @@ import g_THEME from '../../theme/theme';
 import Container from '../atoms/container';
 import CustomText from '../atoms/text';
 
-interface EditProductTextFieldProps {
+interface ItemDetailTextProps {
     label: string;
-    text: string;
+    text: string | undefined;
 }
-const EditProductTextField: React.FC<EditProductTextFieldProps> = ({label, text }) => {
+const ItemDetailText: React.FC<ItemDetailTextProps> = ({label, text }) => {
 
     return (
         <View>
@@ -22,4 +22,4 @@ const EditProductTextField: React.FC<EditProductTextFieldProps> = ({label, text 
 };
 
 
-export default EditProductTextField;
+export default ItemDetailText;

@@ -13,9 +13,8 @@ class ItemApi {
     getItems = async (): Promise<Item[]> => {
         return new Promise(async (resolve, reject) => {
             try {
-                await this.item.api.get('/items')
+                await this.item.api.get(this.api)
                     .then((response) => {
-                        console.log(response.data)
                         const result = response.data.items;
                         resolve(result);
                     })
@@ -32,10 +31,11 @@ class ItemApi {
     getItem = async (id: number): Promise<Item> => {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(this.api + id);
                 await this.item.api.get(this.api + id)
                     .then((response) => {
-                        const result = response.data;
-                        resolve(result.data.item);
+                        const result = response.data.item;
+                        resolve(result);
                     })
                     .catch((error) => {
                         const result = error.response.data;

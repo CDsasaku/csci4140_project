@@ -4,16 +4,16 @@ import { View } from 'react-native';
 import { screenWidth } from '../../constants/screen_dimension';
 import CustomText from '../atoms/text';
 import g_THEME from '../../theme/theme';
-import { Item } from '../../models/item';
+import { Item as ItemType } from '../../models/item';
 
-interface ProductProps {
-  item: Item
+interface ItemProps {
+  item: ItemType
 }
 
-const Product: React.FC<ProductProps> = ({ item }) => {
+const Item: React.FC<ItemProps> = ({ item }) => {
 
   return (
-    <View style={styles.product}>
+    <View style={styles.item}>
       <Image source={require('../../assets/corgi.jpg')} style={styles.photo} />
       <CustomText>{item.name}</CustomText>
       <CustomText>{item.User.username}</CustomText>
@@ -22,7 +22,7 @@ const Product: React.FC<ProductProps> = ({ item }) => {
 };
 
 const styles = StyleSheet.create({
-  product: {
+  item: {
     backgroundColor: g_THEME.colors.white,
     borderRadius: 10,
     height: screenWidth * 0.5,
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Product;
+export default Item;
