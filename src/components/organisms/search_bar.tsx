@@ -6,14 +6,17 @@ import g_THEME from '../../theme/theme';
 
 interface SearchBarProps {
     text: string;
+    onChange: (text: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ text }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ text, onChange }) => {
 
     return (
         <View style={styles.container}>
             <TextField
                 text={text}
+                hint={'Search here'}
+                onChange={onChange}
                 backgroundColor={g_THEME.colors.lightGrey}
                 textColor={g_THEME.colors.greyGreen}
                 borderColor='transparent'

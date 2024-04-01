@@ -18,17 +18,20 @@ import { DispatchThunk } from '../../redux/store/store';
 import itemAction from '../../redux/actions/item_actions';
 import { API_ENDPOINT } from '../../api/apiConfig';
 import { navigateBackTwoPages } from '../../navigations/navigation_service';
+import RNPickerSelect from 'react-native-picker-select';
 
 const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
 
     const { isEdit } = props.route.params;
     const rItem = useSelector(itemSelector).item;
+    const categories = useSelector(itemSelector).categories;
     const dispatch: DispatchThunk = useDispatch();
 
     const [item, setItem] = useState<Item | null>();
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [condition, setCondition] = useState<string>("brand_new");
+    const [categoryId, setCategoryId] = useState<number>(1);
     const [wishlist, setWishlist] = useState<string>("");
     const [media, setMedia] = useState<Asset | string | null>(null);
     const [isVisble, setIsVisible] = useState<boolean>(false);
@@ -42,12 +45,13 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
     );
 
     useEffect(() => {
-        console.log(typeof(media));
+        console.log(typeof (media));
         if (isEdit) {
             setItem(rItem);
             setName(rItem?.name ?? "");
             setDescription(rItem?.description ?? "");
             setCondition(rItem?.Condition?.value ?? "brand_new");
+            setCategoryId(rItem?.categoryId ?? 1);
             setWishlist(rItem?.wishlist ?? "");
             setMedia(rItem?.image ?? null);
         }
@@ -63,6 +67,10 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
 
     const handleRadioChange = (value: string) => {
         setCondition(value);
+    }
+
+    const handleCategoryChange = (value: number) => {
+        setCategoryId(value);
     }
 
     const handleWishlistChange = (value: string) => {
@@ -109,32 +117,19 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
         }
 
         if (isEdit) {
-            if(item == null) return;
-            if(typeof(media) == "string") 
-                dispatch(itemAction.updateItem(item?.id, name, description, condition, item?.uid, wishlist));
+            if (item == null) return;
+            if (typeof (media) == "string")
+                dispatch(itemAction.updateItem(item?.id, name, description, condition, categoryId, item?.uid, wishlist));
             else
-                dispatch(itemAction.updateItem(item?.id, name, description, condition, item?.uid, wishlist, media as Asset));
+                dispatch(itemAction.updateItem(item?.id, name, description, condition, categoryId, item?.uid, wishlist, media as Asset));
         } else {
-            dispatch(itemAction.createItem(name, description, condition, media as Asset, 1, wishlist));
+            dispatch(itemAction.createItem(name, description, condition, categoryId, media as Asset, 1, wishlist));
         }
-
-        Alert.alert('Success', 'Item saved successfully', [
-            {
-                text: 'OK',
-                onPress: () => props.navigation.goBack(),
-            },
-        ]);
     }
 
     const handleDeleteItem = () => {
         if (item == null) return;
         dispatch(itemAction.deleteItem(item.id));
-        Alert.alert('Success', 'Item deleted successfully', [
-            {
-                text: 'OK',
-                onPress: () => navigateBackTwoPages(),
-            },
-        ]);
     }
 
 
@@ -143,7 +138,7 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
             <View style={styles.innerContainer}>
                 <TouchableOpacity onPress={handleImage}>
                     <View style={styles.image}>
-                        {media ? <Image source={{ uri: typeof(media) == "string" ? API_ENDPOINT + media : media.uri }} style={styles.image} /> :
+                        {media ? <Image source={{ uri: typeof (media) == "string" ? API_ENDPOINT + media : media.uri }} style={styles.image} /> :
                             <MaterialIcons name="add-a-photo" size={24} color="black" />
                         }
                     </View>
@@ -154,7 +149,7 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
                     <CustomText size={18}>Name</CustomText>
                     <TextField text={name} error={error.name} onChange={handleNameChange} />
                     <CustomText size={18}>Description</CustomText>
-                    <TextField multiline text={description} error={error.description} onChange={handleDescriptionChange}/>
+                    <TextField multiline text={description} error={error.description} onChange={handleDescriptionChange} />
                     <CustomText size={18}>Condition</CustomText>
                     <RadioButton.Group onValueChange={value => handleRadioChange(value)} value={condition}>
                         <View style={{ flexDirection: 'row' }}>
@@ -174,10 +169,16 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
                             <CustomText size={18}>Old</CustomText>
                         </View>
                     </RadioButton.Group>
+                    <CustomText size={18}>Category</CustomText>
+                    <RNPickerSelect
+                        placeholder={categoryId != null ? {label: item?.Category?.name, value: item?.Category?.id} : { label: 'Select a category', value: null }}
+                        items={categories.map((category) => ({ label: category.name, value: category.id, key: category.id}))}
+                        onValueChange={(value) => handleCategoryChange(value)}
+                    />
                     <CustomText size={18}>Wish List</CustomText>
                     <TextField text={wishlist} error={error.wishlist} onChange={handleWishlistChange} />
                     <CustomButton text="Save" color={g_THEME.colors.blue} onPress={handleSave} />
-                    { isEdit && <CustomButton text="Delete" color={g_THEME.colors.error} onPress={handleDeleteItem} />}
+                    {isEdit && <CustomButton text="Delete" color={g_THEME.colors.error} onPress={handleDeleteItem} />}
                 </View>
             </View>
             <Modal visible={isVisble} onDismiss={() => setIsVisible(false)} >

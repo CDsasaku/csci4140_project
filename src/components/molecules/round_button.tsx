@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Touchable, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { screenWidth } from '../../constants/screen_dimension';
 import CustomText from '../atoms/text';
@@ -8,16 +8,19 @@ import g_THEME from '../../theme/theme';
 
 interface RoundButtonProps {
     text: string;
+    onPress?: () => void;
 }
 
-const RoundButton: React.FC<RoundButtonProps> = ({ text }) => {
+const RoundButton: React.FC<RoundButtonProps> = ({ text, onPress }) => {
 
     return (
-        <Container>
-            <View style={styles.roundButton}>
-                <CustomText>{text}</CustomText>
-            </View>
-        </Container>
+        <TouchableOpacity onPress={onPress}>
+            <Container>
+                <View style={styles.roundButton}>
+                    <CustomText>{text}</CustomText>
+                </View>
+            </Container>
+        </TouchableOpacity>
     );
 };
 

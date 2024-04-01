@@ -13,15 +13,35 @@ import { DispatchThunk } from '../../redux/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import itemAction from '../../redux/actions/item_actions';
 import { itemSelector } from '../../redux/slices/item_slice';
+import { Category } from '../../models/category';
 
 const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   const dispatch: DispatchThunk = useDispatch();
-  const items = useSelector(itemSelector).items;
+  const { items, categories } = useSelector(itemSelector);
+  const [categoryId, setCategoryId] = useState<number | null>();
   const [type, setType] = useState('Featured');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     dispatch(itemAction.getItems());
   }, []);
+
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+    dispatch(itemAction.getItems(categoryId, searchText));
+    console.log(text);
+  }
+
+  const handleCategorySelect = (categoryId: number) => {
+    dispatch(itemAction.getItems(categoryId, searchText));
+    console.log(categoryId);
+  }
+
+  const handleRemoveFilter = () => {
+    setCategoryId(null);
+    setSearchText('');
+    dispatch(itemAction.getItems());
+  }
 
   const handleType = (type: string) => {
     setType(type);
@@ -38,42 +58,44 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
 
   return (
     <View>
-    <ScrollView contentContainerStyle={styles.container}>
-      <SearchBar text='Search here'></SearchBar>
-      <Row justifyContent='space-between'>
-        <CustomText size={16} padding={15}>Categories</CustomText>
-        <CustomText size={14} padding={15} color={g_THEME.colors.grey}>See all</CustomText>
-      </Row>
-      <FlatList
-        horizontal={true}
-        data={['All', 'Clothes', 'Shoes', 'Bags', 'Accessories']}
-        renderItem={({ item }) =>
-          <RoundButton text={item}></RoundButton>
-        }
-
-      ></FlatList>
-      <View style={styles.bottomContainer}>
-        <Row justifyContent='space-around'>
-          <CustomText size={16} padding={15} focused={type == 'Featured'} onPress={() => handleType('Featured')}>Featured Item</CustomText>
-          <CustomText size={16} padding={15} focused={type == 'Top'} onPress={() => handleType('Top')}>Top Rated Item</CustomText>
+      <ScrollView contentContainerStyle={styles.container}>
+        <SearchBar text={searchText} onChange={handleSearch}></SearchBar>
+        <Row justifyContent='space-between'>
+          <CustomText size={16} padding={15}>Categories</CustomText>
+          <TouchableOpacity onPress={handleRemoveFilter}>
+            <CustomText size={14} padding={15} color={g_THEME.colors.grey}>Remove filter</CustomText>
+          </TouchableOpacity>
         </Row>
         <FlatList
-          scrollEnabled={false}
-          data={items}
+          horizontal={true}
+          data={categories}
           renderItem={({ item }) =>
-          <TouchableOpacity style={styles.item} onPress={() => handleItem(item.id)}>
-              <Item item={item}></Item>
-          </TouchableOpacity>
+            <RoundButton text={item.name} onPress={() => handleCategorySelect(item.id)} ></RoundButton>
           }
-          numColumns={2}>
-        </FlatList>
-      </View>
 
-    </ScrollView>
+        ></FlatList>
+        <View style={styles.bottomContainer}>
+          <Row justifyContent='space-around'>
+            <CustomText size={16} padding={15} focused={type == 'Featured'} onPress={() => handleType('Featured')}>Featured Item</CustomText>
+            <CustomText size={16} padding={15} focused={type == 'Top'} onPress={() => handleType('Top')}>Top Rated Item</CustomText>
+          </Row>
+          <FlatList
+            scrollEnabled={false}
+            data={items}
+            renderItem={({ item }) =>
+              <TouchableOpacity style={styles.item} onPress={() => handleItem(item.id)}>
+                <Item item={item}></Item>
+              </TouchableOpacity>
+            }
+            numColumns={2}>
+          </FlatList>
+        </View>
+
+      </ScrollView>
       <View style={styles.add}>
-      <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={handleAdd}></IconButton>
+        <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={handleAdd}></IconButton>
       </View>
-      </View>
+    </View>
   );
 };
 

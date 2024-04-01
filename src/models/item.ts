@@ -1,3 +1,4 @@
+import { Category } from "./category";
 import { Condition } from "./condition";
 import { User } from "./user";
 
@@ -9,6 +10,8 @@ class Item {
   User: User;
   conditionId?: number;
   Condition?: Condition;
+  categoryId?: number;
+  Category?: Category;
   image?: string;
   wishlist?: string;
   createdAt?: Date;
@@ -22,6 +25,8 @@ class Item {
       User: User,
       conditionId?: number,
       Condition?: Condition,
+      categoryId?: number,
+      Category?: Category,
       image?: string,
       wishlist?: string,
       createdAt?: Date,
@@ -35,6 +40,8 @@ class Item {
       this.User = User;
       this.conditionId = conditionId;
       this.Condition = Condition;
+      this.categoryId = categoryId;
+      this.Category = Category;
       this.image = image;
       this.wishlist = wishlist;
       this.createdAt = createdAt;

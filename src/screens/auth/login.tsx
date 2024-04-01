@@ -6,6 +6,7 @@ import { RootProps } from '../../navigations/screen_navigation_props';
 import userAction from '../../redux/actions/user_actions';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
+import itemAction from '../../redux/actions/item_actions';
 
 const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
 
   const handleLogin = () => {
     // dispatch(userAction.login(email, password));
+    dispatch(itemAction.getCategories());
     navigate('HomeBottomBarNavigation');
   };
 

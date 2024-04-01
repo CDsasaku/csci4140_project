@@ -46,6 +46,7 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
                     <CustomText size={22}>{item?.name}</CustomText>
                     <ItemDetailText label="Description" text={item?.description} />
                     <ItemDetailText label="Condition" text={item?.Condition?.name} />
+                    <ItemDetailText label="Category" text={item?.Category?.name} />
                     <ItemDetailText label="Wish List" text={item?.wishlist} />
                     <CustomButton text="Chat" onPress={() => { }} />
                     <CustomButton text="Request" color={g_THEME.colors.blue} onPress={() => { }} />

@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Item } from '../../models/item';
 import { RootState } from './root_reducers';
+import { Category } from '../../models/category';
 
 interface ItemState {
   items: Item[];
   item: Item | null;
+  categories: Category[];
   loading: boolean;
   error: string | null;
 }
@@ -12,6 +14,7 @@ interface ItemState {
 const initialState: ItemState = {
   items: [],
   item: null,
+  categories: [],
   loading: false,
   error: null,
 };
@@ -97,6 +100,19 @@ const itemSlice = createSlice({
       state.error = action.payload;
     },
 
+    getCategoryStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getCategorySuccess: (state, action: PayloadAction<Category[]>) => {
+      state.categories = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    getCategoryFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -116,6 +132,9 @@ export const {
   deleteItemStart,
   deleteItemSuccess,
   deleteItemFailure,
+  getCategoryStart,
+  getCategorySuccess,
+  getCategoryFailure,
 } = itemSlice.actions;
 
 export const itemSelector = (state: RootState) => state.item;
