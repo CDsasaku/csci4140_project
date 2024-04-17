@@ -4,6 +4,8 @@ import { RootStackParamList } from "../screen_navigation_props";
 import HomeScreen from '../../screens/home/home';
 import ItemDetail from '../../screens/home/item_detail';
 import AddOrEditItem from '../../screens/home/add_edit_item';
+import CheckRequestScreen from '../../screens/home/check_request';
+import RequestScreen from '../../screens/home/request';
 
 const HomeProps = createStackNavigator<RootStackParamList>();
 
@@ -16,6 +18,8 @@ export const HomeStackNavigation = () => {
       <HomeProps.Screen name="Home" component={HomeScreen} />
       <HomeProps.Screen name="ItemDetail" component={ItemDetail} />
       <HomeProps.Screen name="AddOrEditItem" component={AddOrEditItem} />
+      <HomeProps.Screen name="CheckRequest" component={CheckRequestScreen} />
+      <HomeProps.Screen name="Request" component={RequestScreen} />
     </HomeProps.Navigator>
   );
 }

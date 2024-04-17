@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { RootProps } from '../../navigations/screen_navigation_props';
 import { Image, StyleSheet, View } from 'react-native';
 import CustomText from '../../components/atoms/text';
@@ -18,16 +18,16 @@ import { API_ENDPOINT } from '../../api/apiConfig';
 
 const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
 
-    const { item_id } = props.route.params;
+    const { itemId } = props.route.params;
     const item = useSelector(itemSelector).item;
-    const [isOwner, setIsOwner] = useState<boolean>(false);
+    const [isOwner, setIsOwner] = useState<boolean>(true);//false);
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
-        dispatch(itemAction.getItem(item_id));
+        dispatch(itemAction.getItem(itemId));
         console.log(item);
-        if(item?.uid == 1) {
+        if (item?.uid == 1) {
             setIsOwner(true);
         }
     }, []);
@@ -36,21 +36,38 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
         props.navigation.navigate('AddOrEditItem', { isEdit: true });
     }
 
+    const handleCheckRequest = () => {
+        props.navigation.navigate('CheckRequest', { itemId: itemId });
+    }
+
+    const handleChat = () => {
+        props.navigation.navigate('Chatroom', { conversationId: 1 });
+    }
+
+    const handleRequest = () => {
+        props.navigation.navigate('Request', { itemId: itemId });
+    }
+
 
     return (
         <ScrollView style={styles.container}>
             <CustomText size={22}>{item?.User.username}</CustomText>
             <View style={styles.innerContainer}>
-                <Image source={{uri: API_ENDPOINT + item?.image}} style={styles.image} />
+                <Image source={{ uri: API_ENDPOINT + item?.image }} style={styles.image} />
                 <View style={styles.bottomContainer}>
                     <CustomText size={22}>{item?.name}</CustomText>
                     <ItemDetailText label="Description" text={item?.description} />
                     <ItemDetailText label="Condition" text={item?.Condition?.name} />
                     <ItemDetailText label="Category" text={item?.Category?.name} />
                     <ItemDetailText label="Wish List" text={item?.wishlist} />
-                    <CustomButton text="Chat" onPress={() => { }} />
-                    <CustomButton text="Request" color={g_THEME.colors.blue} onPress={() => { }} />
-                    {isOwner && <CustomButton text="Edit" color={g_THEME.colors.primary} onPress={handleEdit} />}
+                    <CustomButton text="Chat" onPress={handleChat} />
+                    {isOwner ?
+                        <Fragment>
+                            <CustomButton text="Check Request" color={g_THEME.colors.blue} onPress={handleCheckRequest} />
+                            <CustomButton text="Edit" color={g_THEME.colors.primary} onPress={handleEdit} />
+                        </Fragment> :
+                        <CustomButton text="Request" color={g_THEME.colors.blue} onPress={handleRequest} />
+                    }
                 </View>
             </View>
         </ScrollView>

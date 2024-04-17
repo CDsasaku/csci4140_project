@@ -49,7 +49,7 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
 
   const handleItem = (itemId: number) => {
     console.log("Test");
-    props.navigation.navigate('ItemDetail', { item_id: itemId });
+    props.navigation.navigate('ItemDetail', { itemId: itemId });
   }
 
   const handleAdd = () => {

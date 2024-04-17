@@ -21,13 +21,15 @@ type RootStackParamList = {
   Register: undefined;
   EmailVerification: {isEdit: boolean};
   ForgetPassword: undefined;
-  ResetPassword: { user_id: number; passcode: string };
+  ResetPassword: { uid: number; passcode: string };
   HomeBottomBarNavigation: undefined;
 
   //home
   Home: undefined;
-  ItemDetail: { item_id: number };
+  ItemDetail: { itemId: number };
   AddOrEditItem: { isEdit: boolean};
+  CheckRequest: { itemId: number };
+  Request: { itemId: number };
 
   //conversation
   Message: undefined;
