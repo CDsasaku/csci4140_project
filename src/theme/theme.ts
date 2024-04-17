@@ -23,7 +23,7 @@ const g_THEME: Theme = {
     grey: 'rgba(196, 197, 196, 1)',
     greyGreen: 'rgba(103, 122, 106, 0.8)',  
     lightGrey: 'rgba(250, 250, 250, 1)',
-    secondaryGrey: 'rgba(237, 237, 237, 1)',
+    secondaryGrey: 'rgba(230, 230, 230, 1)',
     blue: 'rgba(12, 26, 48, 1)',
   },
 };

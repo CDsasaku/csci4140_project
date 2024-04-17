@@ -30,18 +30,17 @@ class MessageAction {
         }
     }
 
-    createMessage = (
+    sendMessage = (
         conversationId:number,
-        sender: number,
+        uid: number,
         content: string,
         type: MessageTypes
     ): AppThunk => async (dispatch) => {
         try {
             dispatch(createMessageStart());
-            const message = await apis.message.sendMessage(conversationId, sender, content, type);
+            const message = await apis.message.sendMessage(conversationId, uid, content, type);
             console.log(message);
             dispatch(createMessageSuccess(message));
-            navigateBack();
         } catch (error) {
             console.log(error);
             dispatch(createMessageFailure(error as string));

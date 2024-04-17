@@ -31,6 +31,7 @@ type RootStackParamList = {
 
   //conversation
   Message: undefined;
+  Chatroom: { conversationId: number };
 
   //notification
   Notification: undefined;

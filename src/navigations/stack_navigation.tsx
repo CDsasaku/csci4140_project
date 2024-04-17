@@ -20,7 +20,10 @@ const StackNavigation = (): JSX.Element => {
       headerShown: false,
       contentStyle: {
         backgroundColor: 'white',
-      }
+      },
+      headerStyle: {
+        backgroundColor: 'white',
+      },
     }} initialRouteName={isLogin ? 'HomeBottomBarNavigation' : 'Login'}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="HomeBottomBarNavigation" component={TabNavigation} />
