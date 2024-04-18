@@ -45,7 +45,6 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
     );
 
     useEffect(() => {
-        console.log(typeof (media));
         if (isEdit) {
             setItem(rItem);
             setName(rItem?.name ?? "");

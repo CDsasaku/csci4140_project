@@ -36,7 +36,6 @@ class MessageApi {
                 await this.message.api.get(this.api + 'conversation/' + uid)
                     .then((response) => {
                         const result = response.data;
-                        console.log(result);
                         resolve(result.conversations);
                     })
                     .catch((error) => {
@@ -52,12 +51,6 @@ class MessageApi {
     sendMessage = async (conversationId:number, uid: number, content: string, type: MessageTypes): Promise<Message> => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(
-                    conversationId,
-                    uid,
-                    content,
-                    type
-                )
 
                 const json = {
                     uid: uid,
@@ -65,7 +58,6 @@ class MessageApi {
                     type: type
                 }
 
-                console.log(json);
 
                 await this.message.api.post(this.api + conversationId, json)
                     .then((response) => {

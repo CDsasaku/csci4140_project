@@ -1,4 +1,5 @@
 
+import { RequestStatus } from '../constants/types';
 import { Request } from '../models/request';
 import APIs from './api';
 
@@ -13,7 +14,7 @@ class RequestApi {
     getRequests = async (itemId: number): Promise<Request[]> => {
         return new Promise(async (resolve, reject) => {
             try {
-                await this.request.api.get(this.api + itemId)
+                await this.request.api.get(this.api + 'all/' + itemId)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.requests);
@@ -28,17 +29,58 @@ class RequestApi {
         });
     }
 
-    createRequest = async (uid: number, itemId: number, availableItemId: number): Promise<Request> => {
+    getRequest = async (id: number): Promise<Request> => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await this.request.api.get(this.api + id)
+                    .then((response) => {
+                        const result = response.data;
+                        resolve(result.request);
+                    })
+                    .catch((error) => {
+                        const result = error.response.data;
+                        reject(result.request);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    createRequests = async (uid: number, itemId: number, availableItemIds: number[]): Promise<Request> => {
         return new Promise(async (resolve, reject) => {
             try {
 
                 const json = {
                     uid,
                     itemId,
-                    availableItemId,
+                    availableItemIds,
                 }
 
                 await this.request.api.post(this.api, json)
+                    .then((response) => {
+                        const result = response.data;
+                        resolve(result.request);
+                    })
+                    .catch((error) => {
+                        const result = error.response.data;
+                        reject(result.request);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    updateRequestStatus = async (id: number, status: RequestStatus): Promise<Request> => {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                const json = {
+                    status,
+                }
+
+                await this.request.api.put(this.api + id, json)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.request);

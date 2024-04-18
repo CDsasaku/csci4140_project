@@ -29,12 +29,10 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   const handleSearch = (text: string) => {
     setSearchText(text);
     dispatch(itemAction.getItems(categoryId, searchText));
-    console.log(text);
   }
 
   const handleCategorySelect = (categoryId: number) => {
     dispatch(itemAction.getItems(categoryId, searchText));
-    console.log(categoryId);
   }
 
   const handleRemoveFilter = () => {
@@ -48,7 +46,6 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   }
 
   const handleItem = (itemId: number) => {
-    console.log("Test");
     props.navigation.navigate('ItemDetail', { itemId: itemId });
   }
 

@@ -14,17 +14,19 @@ import { DispatchThunk } from '../../redux/store/store';
 import { itemSelector } from '../../redux/slices/item_slice';
 import ItemDetailText from '../../components/organisms/item_detail_text';
 import { API_ENDPOINT } from '../../api/apiConfig';
+import { RequestStatus } from '../../constants/types';
 
 
 const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
 
-    const { itemId, requestId } = props.route.params;
-    const item = useSelector(itemSelector).request;
+    const { requestId } = props.route.params;
+    const request = useSelector(itemSelector).request;
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
-        dispatch(itemAction.getRequest(itemId));
+        dispatch(itemAction.getRequest(requestId));
+        console.log(request)
     }, []);
 
     const handleChat = () => {
@@ -32,22 +34,41 @@ const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
     }
 
     const handleAcceptRequest = () => {
-        // dispatch(itemAction.acc(requestId));
+        dispatch(itemAction.updateRequestStatus(requestId, RequestStatus.ACCEPTED));
+    }
+
+    const handleRejectRequest = () => {
+        dispatch(itemAction.updateRequestStatus(requestId, RequestStatus.REJECTED));
+    }
+
+    const renderButton = () => {
+        if (request?.status == RequestStatus.PENDING) {
+            return (
+                <View>
+                    <CustomButton text="Accept Request" color={g_THEME.colors.blue} onPress={handleAcceptRequest} />
+                    <CustomButton text="Reject Request" color={g_THEME.colors.error} onPress={handleRejectRequest} />
+                </View>
+            );
+        } else if (request?.status == RequestStatus.ACCEPTED) {
+            return <CustomButton text="Accepted" color={g_THEME.colors.blue} onPress={() => { }} />;
+        } else {
+            return <CustomButton text="Rejected" color={g_THEME.colors.error} onPress={() => { }} />;
+        }
     }
 
 
     return (
         <ScrollView style={styles.container}>
-            <CustomText size={22}>{item?.User.username}</CustomText>
+            <CustomText size={22}>{request?.availableItem?.User.username}</CustomText>
             <View style={styles.innerContainer}>
-                <Image source={{ uri: API_ENDPOINT + item?.image }} style={styles.image} />
+                <Image source={{ uri: API_ENDPOINT + request?.availableItem?.image }} style={styles.image} />
                 <View style={styles.bottomContainer}>
-                    <CustomText size={22}>{item?.name}</CustomText>
-                    <ItemDetailText label="Description" text={item?.description} />
-                    <ItemDetailText label="Condition" text={item?.Condition?.name} />
-                    <ItemDetailText label="Category" text={item?.Category?.name} />
+                    <CustomText size={22}>{request?.availableItem?.name}</CustomText>
+                    <ItemDetailText label="Description" text={request?.availableItem?.description} />
+                    <ItemDetailText label="Condition" text={request?.availableItem?.Condition?.name} />
+                    <ItemDetailText label="Category" text={request?.availableItem?.Category?.name} />
                     <CustomButton text="Chat" onPress={handleChat} />
-                    <CustomButton text="Accept Request" color={g_THEME.colors.blue} onPress={handleAcceptRequest} />
+                    {renderButton()}
 
                 </View>
             </View>

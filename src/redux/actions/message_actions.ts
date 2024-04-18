@@ -10,7 +10,6 @@ class MessageAction {
         try {
             dispatch(getMessagesStart());
             const messages = await apis.message.getMessages(id);
-            console.log(messages);
             dispatch(getMessagesSuccess(messages));
         } catch (error) {
             console.log(error);
@@ -22,7 +21,6 @@ class MessageAction {
         try {
             dispatch(getConversationsStart());
             const message = await apis.message.getConversation(uid);
-            console.log(message);
             dispatch(getConversationsSuccess(message));
         } catch (error) {
             console.log(error);
@@ -39,7 +37,6 @@ class MessageAction {
         try {
             dispatch(createMessageStart());
             const message = await apis.message.sendMessage(conversationId, uid, content, type);
-            console.log(message);
             dispatch(createMessageSuccess(message));
         } catch (error) {
             console.log(error);

@@ -7,6 +7,7 @@ import { DispatchThunk } from '../../redux/store/store';
 import { itemSelector } from '../../redux/slices/item_slice';
 import Item from '../../components/organisms/item';
 import itemAction from '../../redux/actions/item_actions';
+import CustomButton from '../../components/atoms/button';
 
 const CheckRequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
@@ -17,6 +18,7 @@ const CheckRequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
     useEffect(() => {
         dispatch(itemAction.getRequests(itemId));
+        console.log(requests)
     }, []);
 
     const handleRequest = (availableItemId: number, requestId: number) => {
@@ -32,7 +34,7 @@ const CheckRequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
                 data={requests}
                 renderItem={( { item } ) =>
                     <TouchableOpacity style={styles.item} onPress={() => handleRequest(item.availableItemId, item.id)}>
-                        {item.availableItem && <Item item={item.availableItem}></Item>}
+                        {item.availableItem && <Item item={item.availableItem} requestStatus={item.status} ></Item>}
                     </TouchableOpacity>
                 }
                 numColumns={2}>

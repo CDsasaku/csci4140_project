@@ -22,13 +22,12 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
 
     const { itemId } = props.route.params;
     const item = useSelector(itemSelector).item;
-    const [isOwner, setIsOwner] = useState<boolean>(true);//false);
+    const [isOwner, setIsOwner] = useState<boolean>(false);//true);
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
         dispatch(itemAction.getItem(itemId));
-        console.log(item);
         if (item?.uid == 1) {
             setIsOwner(true);
         }

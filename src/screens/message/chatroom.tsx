@@ -29,8 +29,6 @@ const ChatroomScreen: React.FC<RootProps<'Chatroom'>> = (props) => {
   }, []);
 
   const handleSend = () => {
-    console.log('send message');
-    console.log(message);
     dispatch(messageAction.sendMessage(conversationId, 2, message, MessageTypes.TEXT))
     setMessage('');
   }

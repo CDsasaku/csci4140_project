@@ -20,7 +20,6 @@ const ConversationScreen: React.FC<RootProps<'Message'>> = (props) => {
   }, []);
 
   const handlePress = (conversationId: number) => {
-    console.log('pressed');
     props.navigation.navigate('Chatroom', { conversationId: conversationId });
   }
 

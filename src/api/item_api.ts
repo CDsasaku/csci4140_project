@@ -3,6 +3,7 @@ import { Asset } from 'react-native-image-picker';
 import { Item } from '../models/item';
 import APIs from './api';
 import { Category } from '../models/category';
+import { ItemStatus } from '../constants/types';
 
 class ItemApi {
     private item: APIs;
@@ -12,7 +13,7 @@ class ItemApi {
         this.item = item;
     }
 
-    getItems = async (categoryId?: number | null, keyword?: string | null): Promise<Item[]> => {
+    getItems = async (categoryId?: number | null, keyword?: string | null, status?: ItemStatus | null, uid?: number | null): Promise<Item[]> => {
         return new Promise(async (resolve, reject) => {
             try {
 
@@ -23,9 +24,10 @@ class ItemApi {
                     url += "?categoryId=" + categoryId;
                 } else if(keyword) {
                     url += "?keyword=" + keyword;
+                } else if(status && uid) {
+                    url += "?status=" + status + "&uid=" + uid;
                 }
 
-                console.log(url)
                 await this.item.api.get(url)
                     .then((response) => {
                         const result = response.data.items;
@@ -44,7 +46,6 @@ class ItemApi {
     getItem = async (id: number): Promise<Item> => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(this.api + id);
                 await this.item.api.get(this.api + id)
                     .then((response) => {
                         const result = response.data.item;

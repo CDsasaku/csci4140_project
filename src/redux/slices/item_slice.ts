@@ -10,7 +10,8 @@ interface ItemState {
   items: Item[];
   item: Item | null;
   requests: Request[];
-  request: Item | null;
+  request: Request | null;
+  availableItems: Item[];
   categories: Category[];
   loading: boolean;
   error: string | null;
@@ -21,6 +22,7 @@ const initialState: ItemState = {
   item: null,
   requests: [],
   request: null,
+  availableItems: [],
   categories: [],
   loading: false,
   error: null,
@@ -139,6 +141,21 @@ const itemSlice = createSlice({
       state.error = action.payload;
     },
 
+    // get available items
+    getAvailableItemsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getAvailableItemsSuccess: (state, action: PayloadAction<Item[]>) => {
+      state.availableItems = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    getAvailableItemsFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     // get request items
     getRequestsStart: (state) => {
       state.loading = true;
@@ -159,7 +176,7 @@ const itemSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getRequestSuccess: (state, action: PayloadAction<Item>) => {
+    getRequestSuccess: (state, action: PayloadAction<Request>) => {
       state.request = action.payload;
       state.loading = false;
       state.error = null;
@@ -180,6 +197,22 @@ const itemSlice = createSlice({
       state.error = null;
     },
     createRequestFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // update request status
+    updateRequestStatusStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateRequestStatusSuccess: (state, action: PayloadAction<Request>) => {
+      state.requests = state.requests.map((request) => request.id === action.payload.id ? action.payload : request);
+      state.request = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    updateRequestStatusFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -224,6 +257,11 @@ export const {
   getCategorySuccess,
   getCategoryFailure,
 
+  // available item
+  getAvailableItemsStart,
+  getAvailableItemsSuccess,
+  getAvailableItemsFailure,
+
   // request
   getRequestsStart,
   getRequestsSuccess,
@@ -234,6 +272,9 @@ export const {
   createRequestStart,
   createRequestSuccess,
   createRequestFailure,
+  updateRequestStatusStart,
+  updateRequestStatusSuccess,
+  updateRequestStatusFailure,
   deleteRequestStart,
   deleteRequestSuccess,
   deleteRequestFailure,
