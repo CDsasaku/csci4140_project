@@ -14,62 +14,25 @@ import { DispatchThunk } from '../../redux/store/store';
 import { itemSelector } from '../../redux/slices/item_slice';
 import ItemDetailText from '../../components/organisms/item_detail_text';
 import { API_ENDPOINT } from '../../api/apiConfig';
-import { Item } from '../../models/item';
-import { ItemStatus } from '../../constants/types';
 
 
-const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
+const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
 
-    const { itemId } = props.route.params;
-    const item = useSelector(itemSelector).item;
-    const [isOwner, setIsOwner] = useState<boolean>(true);//false);
+    const { itemId, requestId } = props.route.params;
+    const item = useSelector(itemSelector).request;
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
-        dispatch(itemAction.getItem(itemId));
-        console.log(item);
-        if (item?.uid == 1) {
-            setIsOwner(true);
-        }
+        dispatch(itemAction.getRequest(itemId));
     }, []);
-
-    const handleEdit = () => {
-        props.navigation.navigate('AddOrEditItem', { isEdit: true });
-    }
-
-    const handleCheckRequest = () => {
-        props.navigation.navigate('CheckRequest', { itemId: itemId });
-    }
 
     const handleChat = () => {
         props.navigation.navigate('Chatroom', { conversationId: 1 });
     }
 
-    const handleRequest = () => {
-        props.navigation.navigate('Request', { itemId: itemId });
-    }
-
-    const renderButton = () => {
-        if (item?.status == ItemStatus.AVAILABLE) {
-            if (isOwner) {
-                return (
-                    <Fragment>
-                        <CustomButton text="Check Request" color={g_THEME.colors.blue} onPress={handleCheckRequest} />
-                        <CustomButton text="Edit" color={g_THEME.colors.primary} onPress={handleEdit} />
-                    </Fragment>
-                );
-
-            } else {
-                return (
-                    <CustomButton text="Request" color={g_THEME.colors.blue} onPress={handleRequest} />
-                );
-            }
-        } else {
-            return (
-                <CustomButton text="Requested" color={g_THEME.colors.primary} onPress={() => { }} />
-            );
-        }
+    const handleAcceptRequest = () => {
+        // dispatch(itemAction.acc(requestId));
     }
 
 
@@ -83,9 +46,9 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
                     <ItemDetailText label="Description" text={item?.description} />
                     <ItemDetailText label="Condition" text={item?.Condition?.name} />
                     <ItemDetailText label="Category" text={item?.Category?.name} />
-                    <ItemDetailText label="Wish List" text={item?.wishlist} />
                     <CustomButton text="Chat" onPress={handleChat} />
-                    {renderButton()}
+                    <CustomButton text="Accept Request" color={g_THEME.colors.blue} onPress={handleAcceptRequest} />
+
                 </View>
             </View>
         </ScrollView>
@@ -122,4 +85,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ItemDetail;
+export default RequsetDetailScreen;

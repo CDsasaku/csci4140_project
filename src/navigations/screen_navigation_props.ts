@@ -26,9 +26,10 @@ type RootStackParamList = {
 
   //home
   Home: undefined;
-  ItemDetail: { itemId: number };
+  ItemDetail: { itemId: number};
   AddOrEditItem: { isEdit: boolean};
   CheckRequest: { itemId: number };
+  RequestDetail: { itemId: number; requestId: number };
   Request: { itemId: number };
 
   //conversation

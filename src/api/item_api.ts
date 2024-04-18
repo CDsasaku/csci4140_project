@@ -153,7 +153,7 @@ class ItemApi {
             }
         });
     }
-
+    
     deleteItem = async (id: number): Promise<Item> => {
         return new Promise(async (resolve, reject) => {
             try {

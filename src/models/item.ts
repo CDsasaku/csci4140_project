@@ -8,6 +8,7 @@ class Item {
   description: string;
   uid: number;
   User: User;
+  status: string;
   conditionId?: number;
   Condition?: Condition;
   categoryId?: number;
@@ -23,6 +24,7 @@ class Item {
       description: string = '',
       uid: number = 0,
       User: User,
+      status: string,
       conditionId?: number,
       Condition?: Condition,
       categoryId?: number,
@@ -38,6 +40,7 @@ class Item {
       this.description = description;
       this.uid = uid;
       this.User = User;
+      this.status = status;
       this.conditionId = conditionId;
       this.Condition = Condition;
       this.categoryId = categoryId;

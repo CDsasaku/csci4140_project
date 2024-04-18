@@ -15,3 +15,15 @@ export enum MessageTypes {
     TEXT = 'text',
     ITEM = 'item',
 }
+
+export enum ItemStatus {
+    HOLD = 'hold',
+    AVAILABLE = 'available',
+    REQUESTED = 'requested',
+}
+
+export enum RequestStatus {
+    PENDING = 'pending',
+    ACCEPTED = 'accepted',
+    REJECTED = 'rejected',
+}
