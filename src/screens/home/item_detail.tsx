@@ -5,16 +5,13 @@ import CustomText from '../../components/atoms/text';
 import { screenHeight } from '../../constants/screen_dimension';
 import g_THEME from '../../theme/theme';
 import CustomButton from '../../components/atoms/button';
-import Container from '../../components/atoms/container';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import item from '../../components/organisms/item';
 import itemAction from '../../redux/actions/item_actions';
 import { DispatchThunk } from '../../redux/store/store';
 import { itemSelector } from '../../redux/slices/item_slice';
 import ItemDetailText from '../../components/organisms/item_detail_text';
 import { API_ENDPOINT } from '../../api/apiConfig';
-import { Item } from '../../models/item';
 import { ItemStatus } from '../../constants/types';
 
 
@@ -41,7 +38,7 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
         props.navigation.navigate('CheckRequest', { itemId: itemId });
     }
 
-    const handleChat = () => {
+    const handleChat = () => {                                                                                                                                                                                                                                                                                                                           
         props.navigation.navigate('Chatroom', { conversationId: 1 });
     }
 

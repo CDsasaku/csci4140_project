@@ -27,7 +27,7 @@ class ItemApi {
                 } else if(status && uid) {
                     url += "?status=" + status + "&uid=" + uid;
                 }
-
+                
                 await this.item.api.get(url)
                     .then((response) => {
                         const result = response.data.items;

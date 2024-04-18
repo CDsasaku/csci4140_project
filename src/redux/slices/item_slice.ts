@@ -12,6 +12,7 @@ interface ItemState {
   requests: Request[];
   request: Request | null;
   availableItems: Item[];
+  selectedItemIds: number[];
   categories: Category[];
   loading: boolean;
   error: string | null;
@@ -23,6 +24,7 @@ const initialState: ItemState = {
   requests: [],
   request: null,
   availableItems: [],
+  selectedItemIds: [],
   categories: [],
   loading: false,
   error: null,
@@ -151,6 +153,9 @@ const itemSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    getSelectedItemIds: (state, action: PayloadAction<number[]>) => {
+      state.selectedItemIds = action.payload;
+    },
     getAvailableItemsFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
@@ -191,12 +196,25 @@ const itemSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    createRequestSuccess: (state, action: PayloadAction<Request>) => {
-      state.requests.push(action.payload);
+    createRequestSuccess: (state) => {
       state.loading = false;
       state.error = null;
     },
     createRequestFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // update request
+    updateRequestsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateRequestsSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
+    updateRequestsFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -260,6 +278,7 @@ export const {
   // available item
   getAvailableItemsStart,
   getAvailableItemsSuccess,
+  getSelectedItemIds,
   getAvailableItemsFailure,
 
   // request
@@ -272,6 +291,9 @@ export const {
   createRequestStart,
   createRequestSuccess,
   createRequestFailure,
+  updateRequestsStart,
+  updateRequestsSuccess,
+  updateRequestsFailure,
   updateRequestStatusStart,
   updateRequestStatusSuccess,
   updateRequestStatusFailure,

@@ -13,14 +13,18 @@ import CustomButton from '../../components/atoms/button';
 const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
     const { itemId } = props.route.params;
-    const { availableItems } = useSelector(itemSelector);
+    const { availableItems, selectedItemIds } = useSelector(itemSelector);
     const [selectedItems, setSelectedItems] = React.useState<number[]>([]);
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
-        dispatch(itemAction.getAvailableItems(2));
+        dispatch(itemAction.getAvailableItems(itemId, 2));
     }, []);
+
+    useEffect(() => {
+        selectedItemIds && setSelectedItems(selectedItemIds);
+    }, [selectedItemIds]);
 
     const handleRequest = (availableItemId: number) => {
         if (selectedItems.includes(availableItemId)) {
@@ -31,7 +35,11 @@ const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
     }
 
     const handleSendRequest = () => {
-        dispatch(itemAction.createRequests(2, itemId, selectedItems));
+        if (selectedItemIds.length == 0) {
+            dispatch(itemAction.createRequests(2, itemId, selectedItems));
+        } else {
+            dispatch(itemAction.updateRequests(2, itemId, selectedItems));
+        }
     }
 
     return (
@@ -47,7 +55,7 @@ const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
                                 <View style={styles.selected}>
                                     <MaterialIcons name="check" style={styles.icon} size={20} color={g_THEME.colors.white} />
                                 </View>
-                            }
+                            } 
                         </TouchableOpacity>
                     </View>
                 }

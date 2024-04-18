@@ -1,5 +1,5 @@
 import { AppThunk } from '../store/store';
-import { getItemsFailure, getItemsStart, getItemsSuccess, getItemStart, getItemSuccess, getItemFailure, createItemStart, createItemSuccess, createItemFailure, updateItemStart, updateItemSuccess, updateItemFailure, deleteItemStart, deleteItemSuccess, deleteItemFailure, getCategoryStart, getCategorySuccess, getCategoryFailure, getRequestsFailure, getRequestsStart, getRequestsSuccess, createRequestStart, createRequestSuccess, getRequestStart, getRequestFailure, getRequestSuccess, updateRequestStatusStart, updateRequestStatusSuccess, updateRequestStatusFailure, getAvailableItemsStart, getAvailableItemsSuccess, getAvailableItemsFailure  } from '../slices/item_slice';
+import { getItemsFailure, getItemsStart, getItemsSuccess, getItemStart, getItemSuccess, getItemFailure, createItemStart, createItemSuccess, createItemFailure, updateItemStart, updateItemSuccess, updateItemFailure, deleteItemStart, deleteItemSuccess, deleteItemFailure, getCategoryStart, getCategorySuccess, getCategoryFailure, getRequestsFailure, getRequestsStart, getRequestsSuccess, createRequestStart, createRequestSuccess, getRequestStart, getRequestFailure, getRequestSuccess, updateRequestStatusStart, updateRequestStatusSuccess, updateRequestStatusFailure, getAvailableItemsStart, getAvailableItemsSuccess, getAvailableItemsFailure, updateRequestsFailure, updateRequestsStart, updateRequestsSuccess, getSelectedItemIds  } from '../slices/item_slice';
 import apis from '../../api/api_service';
 import { Asset } from 'react-native-image-picker';
 import { navigateBack, navigateBackTwoPages } from '../../navigations/navigation_service';
@@ -93,11 +93,15 @@ class ItemAction {
         }
     }
 
-    getAvailableItems = (uid: number): AppThunk => async (dispatch) => {
+    getAvailableItems = ( itemId: number, uid: number ): AppThunk => async (dispatch) => {
         try {
             dispatch(getAvailableItemsStart());
             const items = await apis.item.getItems(null, null, ItemStatus.AVAILABLE, uid);
+            const requests = await apis.request.getRequests(itemId, uid);
+            console.log(requests)
+            const selectedItemsIds = requests.map((request) => request.availableItemId);
             dispatch(getAvailableItemsSuccess(items));
+            dispatch(getSelectedItemIds(selectedItemsIds));
         } catch (error) {
             console.log(error);
             dispatch(getAvailableItemsFailure(error as string));
@@ -138,11 +142,27 @@ class ItemAction {
         }
     }
 
+    updateRequests = (uid: number, itemId: number, availableItemId: number[]): AppThunk => async (dispatch) => {
+        try {
+            dispatch(updateRequestsStart());
+            console.log({
+                uid,
+                itemId,
+                availableItemId
+            });
+            await apis.request.updateRequests(uid, itemId, availableItemId);
+            dispatch(updateRequestsSuccess());
+        } catch (error) {
+            console.log(error);
+            dispatch(updateRequestsFailure(error as string));
+        }
+    }
+
     createRequests = (uid: number, itemId: number, availableItemId: number[]): AppThunk => async (dispatch) => {
         try {
             dispatch(createRequestStart());
-            const request = await apis.request.createRequests(uid, itemId, availableItemId);
-            dispatch(createRequestSuccess(request));
+            await apis.request.createRequests(uid, itemId, availableItemId);
+            dispatch(createRequestSuccess());
         } catch (error) {
             console.log(error);
             dispatch(createItemFailure(error as string));
