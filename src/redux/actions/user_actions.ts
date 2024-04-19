@@ -6,6 +6,7 @@ import { loginUserFailure, loginUserStart, loginUserSuccess } from '../slices/us
 import { AppThunk } from '../store/store';
 import { navigate, navigateAndReset } from '../../navigations/navigation_service';
 import { User } from '../../models/user';
+import apis from '../../api/api_service';
 
 class UserAction {
 
@@ -13,7 +14,8 @@ class UserAction {
         try {
             dispatch(loginUserStart());
             // await apis.auth.login(username, password);
-            dispatch(loginUserSuccess(new User()));
+            const user = await apis.user.getProfile(2);
+            dispatch(loginUserSuccess(user));
             navigate('HomeBottomBarNavigation');
         } catch (error) {
             console.log(error);

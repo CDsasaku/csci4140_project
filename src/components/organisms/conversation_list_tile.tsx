@@ -5,6 +5,8 @@ import { Image, StyleSheet, View } from 'react-native';
 import g_THEME from '../../theme/theme';
 import { formatDateTime } from '../../utils/format_datetime';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../../redux/slices/user_slice';
 
 interface ConversationListProps {
     conversation: Conversation;
@@ -32,6 +34,9 @@ const ConversationList: React.FC<ConversationListProps> = ({conversation, onPres
         styles.container,
         isHovered && styles.hoveredContainer,
     ];
+    
+    const { user } = useSelector(userSelector);
+    const username = (conversation.user1?.uid === user?.uid) ? conversation.user2?.username : conversation.user1?.username;
 
     return (
         <View
@@ -42,7 +47,7 @@ const ConversationList: React.FC<ConversationListProps> = ({conversation, onPres
         >
             <Image source={require('../../assets/corgi.jpg')} style={styles.photo} />
             <View style={styles.textContainer} >
-                <CustomText>{conversation.user1?.username}</CustomText>
+                <CustomText>{username ?? ""}</CustomText>
                 <CustomText>{conversation.Messages && conversation.Messages[0]?.content}</CustomText>
             </View>
             <CustomText>{conversation.Messages && conversation.Messages[0]?.createdAt && formatDateTime(conversation.Messages[0]?.createdAt)}</CustomText>

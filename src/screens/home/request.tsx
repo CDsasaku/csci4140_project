@@ -9,17 +9,19 @@ import Item from '../../components/organisms/item';
 import itemAction from '../../redux/actions/item_actions';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from '../../components/atoms/button';
+import { userSelector } from '../../redux/slices/user_slice';
 
 const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
     const { itemId } = props.route.params;
     const { availableItems, selectedItemIds } = useSelector(itemSelector);
     const [selectedItems, setSelectedItems] = React.useState<number[]>([]);
+    const { user } = useSelector(userSelector);
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
-        dispatch(itemAction.getAvailableItems(itemId, 2));
+        user && dispatch(itemAction.getAvailableItems(itemId, user?.uid));
     }, []);
 
     useEffect(() => {
@@ -36,9 +38,9 @@ const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
     const handleSendRequest = () => {
         if (selectedItemIds.length == 0) {
-            dispatch(itemAction.createRequests(2, itemId, selectedItems));
+            user && dispatch(itemAction.createRequests(user?.uid, itemId, selectedItems));
         } else {
-            dispatch(itemAction.updateRequests(2, itemId, selectedItems));
+            user && dispatch(itemAction.updateRequests(user?.uid, itemId, selectedItems));
         }
     }
 

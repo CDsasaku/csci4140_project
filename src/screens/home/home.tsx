@@ -54,7 +54,7 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.wholePage}>
       <ScrollView contentContainerStyle={styles.container}>
         <SearchBar text={searchText} onChange={handleSearch}></SearchBar>
         <Row justifyContent='space-between'>
@@ -97,8 +97,12 @@ const HomeScreen: React.FC<RootProps<'Home'>> = (props) => {
 };
 
 const styles = StyleSheet.create({
+  wholePage: {
+    height: '100%',
+  },
   container: {
-    flexGrow: 1,
+    backgroundColor: g_THEME.colors.white,
+    paddingBottom: 20,
   },
   bottomContainer: {
     borderTopLeftRadius: 10,
@@ -106,6 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 10,
     backgroundColor: g_THEME.colors.lightGrey,
+    
   },
   item: {
     flex: 0.5

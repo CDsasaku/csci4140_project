@@ -15,7 +15,7 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const error = useSelector(userSelector).error;
 
   const handleLogin = () => {
-    // dispatch(userAction.login(email, password));
+    dispatch(userAction.login(email, password));
     dispatch(itemAction.getCategories());
     navigate('HomeBottomBarNavigation');
   };

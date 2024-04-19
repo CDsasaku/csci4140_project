@@ -6,6 +6,7 @@ import { Conversation } from '../../models/conversation';
 interface MessageState {
   messages: Message[];
   conversations: Conversation[];
+  conversation: Conversation | null;
   loading: boolean;
   error: string | null;
 }
@@ -13,6 +14,7 @@ interface MessageState {
 const initialState: MessageState = {
   messages: [],
   conversations: [],
+  conversation: null,
   loading: false,
   error: null,
 };
@@ -52,6 +54,26 @@ const messageSlice = createSlice({
       state.error = action.payload;
     },
 
+    // check or create conversation
+    checkOrCreateConversationStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    checkOrCreateConversationSuccess: (state, action: PayloadAction<Conversation>) => {
+      // check if conversation already exists in conversations
+      if (!state.conversations.some((conversation) => conversation.id == action.payload.id)) {
+        state.conversations.push(action.payload);
+      }
+
+      state.conversation = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    checkOrCreateConversationFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     // create message
     createMessageStart: (state) => {
       state.loading = true;
@@ -59,6 +81,13 @@ const messageSlice = createSlice({
     },
     createMessageSuccess: (state, action: PayloadAction<Message>) => {
       state.messages.push(action.payload);
+      state.conversations = state.conversations.map((conversation) => {
+        if (conversation.id == action.payload.conversationId && conversation.Messages) {
+          conversation.Messages[0] = action.payload;
+        }
+        return conversation;
+      });
+      
       state.loading = false;
       state.error = null;
     },
@@ -76,6 +105,9 @@ export const {
   getConversationsStart,
   getConversationsSuccess,
   getConversationsFailure,
+  checkOrCreateConversationStart,
+  checkOrCreateConversationSuccess,
+  checkOrCreateConversationFailure,
   createMessageStart,
   createMessageSuccess,
   createMessageFailure,

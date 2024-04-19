@@ -18,7 +18,6 @@ const CheckRequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
 
     useEffect(() => {
         dispatch(itemAction.getRequests(itemId));
-        console.log(requests)
     }, []);
 
     const handleRequest = (availableItemId: number, requestId: number) => {

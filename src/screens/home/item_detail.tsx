@@ -13,21 +13,24 @@ import { itemSelector } from '../../redux/slices/item_slice';
 import ItemDetailText from '../../components/organisms/item_detail_text';
 import { API_ENDPOINT } from '../../api/apiConfig';
 import { ItemStatus } from '../../constants/types';
+import { userSelector } from '../../redux/slices/user_slice';
+import apis from '../../api/api_service';
+import messageAction from '../../redux/actions/message_actions';
+import { messageSelector } from '../../redux/slices/message_slice';
 
 
 const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
 
     const { itemId } = props.route.params;
     const item = useSelector(itemSelector).item;
-    const [isOwner, setIsOwner] = useState<boolean>(false);//true);
+    const { user } = useSelector(userSelector);
+    const isOwner = item?.uid == user?.uid;
+    const { conversation } = useSelector(messageSelector);
 
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
         dispatch(itemAction.getItem(itemId));
-        if (item?.uid == 1) {
-            setIsOwner(true);
-        }
     }, []);
 
     const handleEdit = () => {
@@ -38,11 +41,15 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
         props.navigation.navigate('CheckRequest', { itemId: itemId });
     }
 
-    const handleChat = () => {                                                                                                                                                                                                                                                                                                                           
-        props.navigation.navigate('Chatroom', { conversationId: 1 });
+    const handleChat = async () => {
+        if (item && user) {
+            dispatch(messageAction.checkOrCreateConversation(item?.uid, user?.uid));
+            conversation && props.navigation.navigate('Chatroom', { conversationId: conversation?.id });
+        }
     }
 
     const handleRequest = () => {
+
         props.navigation.navigate('Request', { itemId: itemId });
     }
 
@@ -58,12 +65,18 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
 
             } else {
                 return (
-                    <CustomButton text="Request" color={g_THEME.colors.blue} onPress={handleRequest} />
+                    <Fragment>
+                        <CustomButton text="Chat" onPress={handleChat} />
+                        <CustomButton text="Request" color={g_THEME.colors.blue} onPress={handleRequest} />
+                    </Fragment>
                 );
             }
         } else {
             return (
-                <CustomButton text="Requested" color={g_THEME.colors.primary} onPress={() => { }} />
+                <Fragment>
+                    <CustomButton text="Chat" onPress={handleChat} />
+                    <CustomButton text="Requested" color={g_THEME.colors.primary} onPress={() => { }} />
+                </Fragment>
             );
         }
     }
@@ -80,7 +93,6 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
                     <ItemDetailText label="Condition" text={item?.Condition?.name} />
                     <ItemDetailText label="Category" text={item?.Category?.name} />
                     <ItemDetailText label="Wish List" text={item?.wishlist} />
-                    <CustomButton text="Chat" onPress={handleChat} />
                     {renderButton()}
                 </View>
             </View>

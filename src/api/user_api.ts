@@ -4,9 +4,28 @@ import APIs from './api';
 
 class UserApi {
     private user: APIs;
+    private api: string = '/users/';
 
     constructor(user: APIs) {
         this.user = user;
+    }
+
+    getProfile = async (uid: number): Promise<User> => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await this.user.api.get(this.api + uid)
+                    .then((response) => {
+                        const result = response.data;
+                        resolve(result.user);
+                    })
+                    .catch((error) => {
+                        const result = error.response.data;
+                        reject(result.message);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     updateProfile = async (
@@ -29,7 +48,7 @@ class UserApi {
                 await this.user.api.put('/users', jsonData)
                     .then((response) => {
                         const result = response.data;
-                        resolve(result.data.user);
+                        resolve(result.user);
                     })
                     .catch((error) => {
                         const result = error.response.data;

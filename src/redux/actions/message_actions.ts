@@ -1,5 +1,5 @@
 import { AppThunk } from '../store/store';
-import { createMessageFailure, createMessageStart, createMessageSuccess, getConversationsFailure, getConversationsStart, getConversationsSuccess, getMessagesFailure, getMessagesStart, getMessagesSuccess  } from '../slices/message_slice';
+import { checkOrCreateConversationFailure, checkOrCreateConversationStart, checkOrCreateConversationSuccess, createMessageFailure, createMessageStart, createMessageSuccess, getConversationsFailure, getConversationsStart, getConversationsSuccess, getMessagesFailure, getMessagesStart, getMessagesSuccess  } from '../slices/message_slice';
 import apis from '../../api/api_service';
 import { navigateBack } from '../../navigations/navigation_service';
 import { MessageTypes } from '../../constants/types';
@@ -25,6 +25,20 @@ class MessageAction {
         } catch (error) {
             console.log(error);
             dispatch(getConversationsFailure(error as string));
+        }
+    }
+
+    checkOrCreateConversation = (
+        uid1: number,
+        uid2: number
+    ): AppThunk => async (dispatch) => {
+        try {
+            dispatch(checkOrCreateConversationStart());
+            const conversation = await apis.message.checkOrCreateConversation(uid1, uid2);
+            dispatch(checkOrCreateConversationSuccess(conversation));
+        } catch (error) {
+            console.log(error);
+            dispatch(checkOrCreateConversationFailure(error as string));
         }
     }
 

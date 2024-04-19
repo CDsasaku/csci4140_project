@@ -9,14 +9,16 @@ import messageAction from '../../redux/actions/message_actions';
 import { messageSelector } from '../../redux/slices/message_slice';
 import Container from '../../components/atoms/container';
 import g_THEME from '../../theme/theme';
+import { userSelector } from '../../redux/slices/user_slice';
 
 const ConversationScreen: React.FC<RootProps<'Message'>> = (props) => {
 
   const { conversations } = useSelector(messageSelector);
   const dispatch: DispatchThunk = useDispatch();
+  const { user } = useSelector(userSelector);
 
   useEffect(() => {
-    dispatch(messageAction.getConversations(2));
+    user && dispatch(messageAction.getConversations(user.uid));
   }, []);
 
   const handlePress = (conversationId: number) => {

@@ -73,7 +73,7 @@ class ItemAction {
     deleteItem = (id: number): AppThunk => async (dispatch) => {
         try {
             dispatch(deleteItemStart());
-            const item = await apis.item.deleteItem(id);
+            await apis.item.deleteItem(id);
             dispatch(deleteItemSuccess(id));
             navigateBackTwoPages();
         } catch (error) {
@@ -98,7 +98,6 @@ class ItemAction {
             dispatch(getAvailableItemsStart());
             const items = await apis.item.getItems(null, null, ItemStatus.AVAILABLE, uid);
             const requests = await apis.request.getRequests(itemId, uid);
-            console.log(requests)
             const selectedItemsIds = requests.map((request) => request.availableItemId);
             dispatch(getAvailableItemsSuccess(items));
             dispatch(getSelectedItemIds(selectedItemsIds));
@@ -145,11 +144,6 @@ class ItemAction {
     updateRequests = (uid: number, itemId: number, availableItemId: number[]): AppThunk => async (dispatch) => {
         try {
             dispatch(updateRequestsStart());
-            console.log({
-                uid,
-                itemId,
-                availableItemId
-            });
             await apis.request.updateRequests(uid, itemId, availableItemId);
             dispatch(updateRequestsSuccess());
         } catch (error) {

@@ -57,8 +57,6 @@ class RequestApi {
                     availableItemIds,
                 }
 
-                console.log(json);
-
                 await this.request.api.post(this.api, json)
                     .then((response) => {
                         const result = response.data;

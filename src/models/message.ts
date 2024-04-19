@@ -4,6 +4,7 @@ class Message {
     id: number;
     content: string;
     uid: number;
+    conversationId?: number;
     User?: User;
     type?: string;
     createdAt?: Date;
@@ -13,6 +14,7 @@ class Message {
         id: number = 0,
         content: string = '',
         uid: number = 0,
+        conversationId?: number,
         User?: User,
         type?: string,
         createdAt?: Date,
@@ -21,6 +23,7 @@ class Message {
         this.id = id;
         this.content = content;
         this.uid = uid;
+        this.conversationId = conversationId;
         this.User = User;
         this.type = type;
         this.createdAt = createdAt;

@@ -26,7 +26,6 @@ const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
 
     useEffect(() => {
         dispatch(itemAction.getRequest(requestId));
-        console.log(request)
     }, []);
 
     const handleChat = () => {

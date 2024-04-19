@@ -48,6 +48,24 @@ class MessageApi {
         });
     }
 
+    checkOrCreateConversation = async (uid1: number, uid2: number): Promise<Conversation> => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await this.message.api.get(this.api + 'conversation?uid1=' + uid1 + '&uid2=' + uid2)
+                    .then((response) => {
+                        const result = response.data;
+                        resolve(result.conversation);
+                    })
+                    .catch((error) => {
+                        const result = error.response.data;
+                        reject(result.message);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     sendMessage = async (conversationId:number, uid: number, content: string, type: MessageTypes): Promise<Message> => {
         return new Promise(async (resolve, reject) => {
             try {

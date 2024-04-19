@@ -13,8 +13,9 @@ import Row from '../../components/atoms/row';
 import IconButton from '../../components/atoms/icon_button';
 import { MessageTypes } from '../../constants/types';
 import { Modal } from 'react-native-paper';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { screenHeight, screenWidth } from '../../constants/screen_dimension';
+import { userSelector } from '../../redux/slices/user_slice';
 
 const ChatroomScreen: React.FC<RootProps<'Chatroom'>> = (props) => {
 
@@ -23,13 +24,14 @@ const ChatroomScreen: React.FC<RootProps<'Chatroom'>> = (props) => {
   const { conversationId } = props.route.params;
   const [message, setMessage] = React.useState('');
   // const [modalVisible, setModalVisible] = React.useState(false);
+  const { user } = useSelector(userSelector);
 
   useEffect(() => {
     dispatch(messageAction.getMessages(conversationId));
   }, []);
 
   const handleSend = () => {
-    dispatch(messageAction.sendMessage(conversationId, 2, message, MessageTypes.TEXT))
+    user && dispatch(messageAction.sendMessage(conversationId, user?.uid, message, MessageTypes.TEXT))
     setMessage('');
   }
 
@@ -44,13 +46,13 @@ const ChatroomScreen: React.FC<RootProps<'Chatroom'>> = (props) => {
   return (
     <View style={style.wholeContainer}>
       <View style={style.container}>
-        <View style={style.chatContainer}>
+        <ScrollView style={style.chatContainer}>
           {messages.map((message, index) => (
             <View key={index}>
               <Bubble text={message.content} message={message} />
             </View>
           ))}
-        </View>
+        </ScrollView>
         <View style={style.inputContainer}>
           <IconButton icon={'add'} color={g_THEME.colors.primary} onPress={() => {}} />
           <TextInput placeholder={'Type a message'} style={style.input} value={message} onChangeText={handleMessageChange} />
