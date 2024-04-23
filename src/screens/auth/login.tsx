@@ -7,6 +7,7 @@ import userAction from '../../redux/actions/user_actions';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 import itemAction from '../../redux/actions/item_actions';
+import usePushNotification from '../../notification/usePushNotification';
 
 const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [email, setEmail] = useState('');
@@ -14,14 +15,15 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const dispatch: DispatchThunk = useDispatch();
   const error = useSelector(userSelector).error;
 
-  const handleLogin = () => {
-    dispatch(userAction.login(email, password));
+  const handleLogin = async () => {
+    const fcmToken = await usePushNotification().getFCMToken();
+    dispatch(userAction.login(email, password, fcmToken ?? ''));
     dispatch(itemAction.getCategories());
     navigate('HomeBottomBarNavigation');
   };
 
   const handleRegister = () => {
-    navigate('Register');
+    //navigate('Register');
   };
 
   return (

@@ -10,7 +10,7 @@ import apis from '../../api/api_service';
 
 class UserAction {
 
-    login = (username: string, password: string): AppThunk => async (dispatch) => {
+    login = (username: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
         try {
             dispatch(loginUserStart());
             // await apis.auth.login(username, password);
