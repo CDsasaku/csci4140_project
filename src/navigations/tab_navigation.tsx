@@ -5,17 +5,29 @@ import ProfileScreen from '../screens/profile/profile';
 import React from 'react';
 import { screenHeight } from '../constants/screen_dimension';
 import g_THEME from '../theme/theme';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { HomeStackNavigation } from './stack_navigations/home_stack_navigation';
 import { MessageStackNavigation } from './stack_navigations/message_stack_navigation';
 import { NotificationStackNavigation } from './stack_navigations/notification_stack_navigation';
 import CustomText from '../components/atoms/text';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSelector } from '../redux/slices/user_slice';
+import { DispatchThunk } from '../redux/store/store';
+import notificationAction from '../redux/actions/notification_actions';
 
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 const TabNavigation: React.FC<RootProps<'HomeBottomBarNavigation'>> = (props) => {
+
+  const { user } = useSelector(userSelector);
+  const dispatch: DispatchThunk = useDispatch();
+
+  const handleNotificationTabPress = () => {
+    user && dispatch(notificationAction.getNotifications(user.uid));
+    props.navigation.navigate('NotificationStack');
+  }
 
   return (
     <Tab.Navigator initialRouteName="HomeStack"
@@ -47,12 +59,20 @@ const TabNavigation: React.FC<RootProps<'HomeBottomBarNavigation'>> = (props) =>
         },
         header(props) {
           let name = getName(route.name);
+
           return <CustomText padding={10} size={18} textAlign='center'>{name}</CustomText>;
         },
       })}>
       <Tab.Screen name="HomeStack" component={HomeStackNavigation} />
       <Tab.Screen name="MessageStack" component={MessageStackNavigation} />
-      <Tab.Screen name="NotificationStack" component={NotificationStackNavigation} />
+      <Tab.Screen name="NotificationStack" component={NotificationStackNavigation} options={{
+        tabBarButton: (props) => (
+          <TouchableOpacity
+            {...props}
+            onPress={() => handleNotificationTabPress()}
+          />
+        ),
+      }} />
       <Tab.Screen name="ProfileStack" component={ProfileStackNavigation} />
     </Tab.Navigator>
   );

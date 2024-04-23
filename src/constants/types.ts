@@ -27,3 +27,8 @@ export enum RequestStatus {
     ACCEPTED = 'accepted',
     REJECTED = 'rejected',
 }
+
+export enum NotificationStatus {
+    READ = 'read',
+    UNREAD = 'unread',
+}

@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../models/user';
 import { RootState } from './root_reducers';
+import { Notification } from '../../models/notification';
 
 interface UserState {
   user: User | null;
+  notifications: Notification[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
   user: null,
+  notifications: [],
   loading: false,
   error: null,
 };
@@ -79,6 +82,38 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
 
+    // get notifications
+    getNotificationsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getNotificationsSuccess: (state, action: PayloadAction<Notification[]>) => {
+      state.notifications = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    getNotificationsFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // update notifications
+    updateNotificationsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateNotificationsSuccess: (state, action: PayloadAction<Notification>) => {
+      const index = state.notifications.findIndex((notification) => notification.id === action.payload.id);
+      if (index !== -1) {
+        state.notifications[index] = action.payload;
+      }
+      state.loading = false;
+      state.error = null;
+    },
+    updateNotificationsFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
 
   },
 });
@@ -96,6 +131,13 @@ export const {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+
+  getNotificationsStart,
+  getNotificationsSuccess,
+  getNotificationsFailure,
+  updateNotificationsStart,
+  updateNotificationsSuccess,
+  updateNotificationsFailure,
 } = userSlice.actions;
 
 export const userSelector = (state: RootState) => state.user;
