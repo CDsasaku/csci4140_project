@@ -13,11 +13,10 @@ class UserAction {
     login = (email: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
         try {
             dispatch(loginUserStart());
-            const user = await apis.user.userLogin(email, password);
-            // todo: make it the salted
+            const user = await apis.user.userLogin(email, password, fcmToken);
             if (user) {
                 dispatch(loginUserSuccess(user));
-                navigate('HomeBottomBarNavigation');    // todo: change the location
+                navigate('HomeBottomBarNavigation');
             }
         } catch (error) {
             console.log(error);
