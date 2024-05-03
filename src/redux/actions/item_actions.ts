@@ -7,10 +7,11 @@ import { ItemStatus, RequestStatus } from '../../constants/types';
 
 class ItemAction {
 
-    getItems = (categoryId?: number | null, keyword?: string | null, status?: ItemStatus): AppThunk => async (dispatch) => {
+    getItems = (categoryId?: number | null, keyword?: string | null, status?: ItemStatus | null, uid?: number | null): AppThunk => async (dispatch) => {
         try {
             dispatch(getItemsStart());
-            const items = await apis.item.getItems(categoryId, keyword, status);
+            console.log("items list", categoryId, keyword, status, uid)
+            const items = await apis.item.getItems(categoryId, keyword, status, uid);
             dispatch(getItemsSuccess(items));
         } catch (error) {
             console.log(error);
@@ -113,7 +114,6 @@ class ItemAction {
             const items = await apis.request.getRequests(itemId);
             dispatch(getRequestsSuccess(items));
         } catch (error) {
-            console.log(error);
             dispatch(getRequestsFailure(error as string));
         }
     }

@@ -23,7 +23,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ text, onChange }) => {
                 suffixIcon='search'
                 suffixIconColor={g_THEME.colors.primary}
                 >
-
             </TextField>
         </View>
     );

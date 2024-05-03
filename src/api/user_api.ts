@@ -32,12 +32,14 @@ class UserApi {
     userLogin = async (
         email: string,
         password: string,
+        fcmToken: string
     ): Promise<User> => {
         return new Promise(async (resolve, reject) => {
             try {
                 const jsonData = {
                     email: email,
                     password: password,
+                    fcmToken: fcmToken
                 }
                 await this.user.api.post(this.api + "/login", jsonData)
                     .then((response) => {

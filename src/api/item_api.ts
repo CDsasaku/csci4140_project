@@ -26,8 +26,10 @@ class ItemApi {
                     url += "?keyword=" + keyword;
                 } else if(status && uid) {
                     url += "?status=" + status + "&uid=" + uid;
+                } else if (uid) {
+                    url += "?uid=" + uid;
                 }
-                
+                                
                 await this.item.api.get(url)
                     .then((response) => {
                         const result = response.data.items;
