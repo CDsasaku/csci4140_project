@@ -5,20 +5,38 @@ import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
+import userAction from '../../redux/actions/user_actions';
 
 const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch: DispatchThunk = useDispatch();
   const error = useSelector(userSelector).error;
 
   const handleRegister = () => {
-    // dispatch(register(email, password));
-    navigate('Profile');
+    // checking if format is correct
+    if (!email.includes('@')) {
+      alert('Invalid email');
+      return;
+    }
+    if (password.length < 6) {
+      alert('Password should be at least 6 characters');
+      return;
+    }
+
+
+    dispatch(userAction.register(username, email, password));
   };
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"

@@ -14,13 +14,18 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [password, setPassword] = useState('');
   const dispatch: DispatchThunk = useDispatch();
   const error = useSelector(userSelector).error;
+  const user = useSelector(userSelector).user;
 
   const handleLogin = async () => {
     const fcmToken = await usePushNotification().getFCMToken();
     console.log('fcmToken', fcmToken)
     dispatch(userAction.login(email, password, fcmToken ?? ''));
     dispatch(itemAction.getCategories());
-    // navigate('HomeBottomBarNavigation');
+    if (error) {
+      alert(error);
+      console.log('user', user);
+      return;
+    }
   };
 
   const handleRegister = () => {

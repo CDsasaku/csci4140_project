@@ -14,12 +14,25 @@ class UserAction {
         try {
             dispatch(loginUserStart());
             const user = await apis.user.userLogin(email, password);
-            console.log("user", user)
             // todo: make it the salted
             if (user) {
                 dispatch(loginUserSuccess(user));
-                navigate('HomeBottomBarNavigation');
+                navigate('HomeBottomBarNavigation');    // todo: change the location
             }
+        } catch (error) {
+            console.log(error);
+            dispatch(loginUserFailure(error as string));
+        }
+    }
+
+    register = (username: string, email: string, password: string): AppThunk => async (dispatch) => {
+        try {
+            const user = await apis.user.userRegister(username, email, password);
+            if (user) {
+                dispatch(loginUserSuccess(user));
+                navigate('Profile');    // todo: change the location
+            }
+
         } catch (error) {
             console.log(error);
             dispatch(loginUserFailure(error as string));

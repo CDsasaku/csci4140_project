@@ -35,11 +35,11 @@ class UserApi {
     ): Promise<User> => {
         return new Promise(async (resolve, reject) => {
             try {
-                const loginData = {
+                const jsonData = {
                     email: email,
-                    password: password
+                    password: password,
                 }
-                await this.user.api.post(this.api + "/login", loginData)
+                await this.user.api.post(this.api + "/login", jsonData)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.user);
@@ -52,8 +52,34 @@ class UserApi {
                 reject(error);
             }
         });
-
     }
+
+    userRegister = async (
+        username: string,
+        email: string,
+        password: string,
+        ): Promise<User> => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const jsonData = {
+                        username: username,
+                        email: email,
+                        password: password,
+                    }
+                    await this.user.api.post(this.api + "/register", jsonData)
+                        .then((response) => {
+                            const result = response.data;
+                            resolve(result.user);
+                        })
+                        .catch((error) => {
+                            const result = error.response.data;
+                            reject(result.message);
+                        });
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
 
     updateProfile = async (
         username: string,
