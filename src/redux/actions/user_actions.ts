@@ -10,13 +10,16 @@ import apis from '../../api/api_service';
 
 class UserAction {
 
-    login = (username: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
+    login = (email: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
         try {
             dispatch(loginUserStart());
-            // await apis.auth.login(username, password);
-            const user = await apis.user.getProfile(2);
-            dispatch(loginUserSuccess(user));
-            navigate('HomeBottomBarNavigation');
+            const user = await apis.user.userLogin(email, password);
+            console.log("user", user)
+            // todo: make it the salted
+            if (user) {
+                dispatch(loginUserSuccess(user));
+                navigate('HomeBottomBarNavigation');
+            }
         } catch (error) {
             console.log(error);
             dispatch(loginUserFailure(error as string));

@@ -13,7 +13,33 @@ class UserApi {
     getProfile = async (uid: number): Promise<User> => {
         return new Promise(async (resolve, reject) => {
             try {
-                await this.user.api.get(this.api + uid)
+                await this.user.api.post(this.api + uid)
+                    .then((response) => {
+                        const result = response.data;
+                        resolve(result.user);
+                    })
+                    .catch((error) => {
+                        const result = error.response.data;
+                        console.log(result.message)
+                        reject(result.message);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    userLogin = async (
+        email: string,
+        password: string,
+    ): Promise<User> => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const loginData = {
+                    email: email,
+                    password: password
+                }
+                await this.user.api.post(this.api + "/login", loginData)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.user);
@@ -26,6 +52,7 @@ class UserApi {
                 reject(error);
             }
         });
+
     }
 
     updateProfile = async (

@@ -17,13 +17,14 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
 
   const handleLogin = async () => {
     const fcmToken = await usePushNotification().getFCMToken();
+    console.log('fcmToken', fcmToken)
     dispatch(userAction.login(email, password, fcmToken ?? ''));
     dispatch(itemAction.getCategories());
-    navigate('HomeBottomBarNavigation');
+    // navigate('HomeBottomBarNavigation');
   };
 
   const handleRegister = () => {
-    //navigate('Register');
+    navigate('Register');
   };
 
   return (
