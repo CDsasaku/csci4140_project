@@ -15,13 +15,15 @@ import { itemSelector } from '../../redux/slices/item_slice';
 import ItemDetailText from '../../components/organisms/item_detail_text';
 import { API_ENDPOINT } from '../../api/apiConfig';
 import { RequestStatus } from '../../constants/types';
+import { userSelector } from '../../redux/slices/user_slice';
+import messageAction from '../../redux/actions/message_actions';
 
 
 const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
 
     const { requestId } = props.route.params;
-    const request = useSelector(itemSelector).request;
-
+    const request = useSelector(itemSelector).request;  
+    const user = useSelector(userSelector).user;
     const dispatch: DispatchThunk = useDispatch();
 
     useEffect(() => {
@@ -29,7 +31,9 @@ const RequsetDetailScreen: React.FC<RootProps<'RequestDetail'>> = (props) => {
     }, []);
 
     const handleChat = () => {
-        props.navigation.navigate('Chatroom', { conversationId: 1 });
+        if (request && request.availableItem && user) {
+            dispatch(messageAction.checkOrCreateConversation(request?.availableItem?.User.uid, user?.uid));
+        }
     }
 
     const handleAcceptRequest = () => {

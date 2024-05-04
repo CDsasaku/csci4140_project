@@ -19,6 +19,7 @@ import itemAction from '../../redux/actions/item_actions';
 import { API_ENDPOINT } from '../../api/apiConfig';
 import { navigateBackTwoPages } from '../../navigations/navigation_service';
 import RNPickerSelect from 'react-native-picker-select';
+import { userSelector } from '../../redux/slices/user_slice';
 
 const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
 
@@ -26,6 +27,7 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
     const rItem = useSelector(itemSelector).item;
     const categories = useSelector(itemSelector).categories;
     const dispatch: DispatchThunk = useDispatch();
+    const { user } = useSelector(userSelector);
 
     const [item, setItem] = useState<Item | null>();
     const [name, setName] = useState<string>("");
@@ -122,7 +124,7 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
             else
                 dispatch(itemAction.updateItem(item?.id, name, description, condition, categoryId, item?.uid, wishlist, media as Asset));
         } else {
-            dispatch(itemAction.createItem(name, description, condition, categoryId, media as Asset, 1, wishlist));
+            user && dispatch(itemAction.createItem(name, description, condition, categoryId, media as Asset, user?.uid, wishlist));
         }
     }
 
@@ -170,9 +172,10 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
                     </RadioButton.Group>
                     <CustomText size={18}>Category</CustomText>
                     <RNPickerSelect
-                        placeholder={categoryId != null ? {label: item?.Category?.name, value: item?.Category?.id} : { label: 'Select a category', value: null }}
+                        placeholder={categoryId != null ? {label: item?.Category?.name ?? '', value: item?.Category?.id} : { label: 'Select a category', value: null }}
                         items={categories.map((category) => ({ label: category.name, value: category.id, key: category.id}))}
                         onValueChange={(value) => handleCategoryChange(value)}
+                        style={{ inputAndroid: { color: 'black' } }}
                     />
                     <CustomText size={18}>Wish List</CustomText>
                     <TextField text={wishlist} error={error.wishlist} onChange={handleWishlistChange} />
