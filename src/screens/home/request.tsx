@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RootProps } from '../../navigations/screen_navigation_props';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import g_THEME from '../../theme/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { DispatchThunk } from '../../redux/store/store';
@@ -39,8 +39,10 @@ const RequestScreen: React.FC<RootProps<'CheckRequest'>> = (props) => {
     const handleSendRequest = () => {
         if (selectedItemIds.length == 0) {
             user && dispatch(itemAction.createRequests(user?.uid, itemId, selectedItems));
+            ToastAndroid.show("Request sent", ToastAndroid.SHORT);
         } else {
             user && dispatch(itemAction.updateRequests(user?.uid, itemId, selectedItems));
+            ToastAndroid.show("Request updated", ToastAndroid.SHORT);
         }
     }
 

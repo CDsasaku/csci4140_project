@@ -2,7 +2,6 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react'
 import g_THEME from '../../theme/theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 interface IconButtonProps {
     onPress: () => void;
