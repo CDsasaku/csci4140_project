@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
@@ -8,6 +8,7 @@ import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 import itemAction from '../../redux/actions/item_actions';
 import usePushNotification from '../../notification/usePushNotification';
+import { Dialog } from 'react-native-paper';
 
 const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
     dispatch(userAction.login(email, password, fcmToken ?? ''));
     dispatch(itemAction.getCategories());
     if (error) {
-      alert(error);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       console.log('user', user);
       return;
     }
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   input: {
+    color: 'black',
     width: '100%',
     height: 40,
     borderColor: 'gray',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
@@ -17,11 +17,11 @@ const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
   const handleRegister = () => {
     // checking if format is correct
     if (!email.includes('@')) {
-      alert('Invalid email');
+      ToastAndroid.show('Invalid email', ToastAndroid.SHORT);
       return;
     }
     if (password.length < 6) {
-      alert('Password should be at least 6 characters');
+      ToastAndroid.show('Password should be at least 6 characters', ToastAndroid.SHORT);
       return;
     }
 
