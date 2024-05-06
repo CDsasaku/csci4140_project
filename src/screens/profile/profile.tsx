@@ -12,6 +12,7 @@ import g_THEME from '../../theme/theme';
 import Item from '../../components/organisms/item';
 import IconButton from '../../components/atoms/icon_button';
 import userAction from '../../redux/actions/user_actions';
+import Row from '../../components/atoms/row';
 
 
 const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
@@ -39,6 +40,11 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
     dispatch(userAction.logout(email));
   }
 
+  const handleEdit = () => {
+    if (!uid) return;
+    props.navigation.navigate('EditProfile', { uid: uid });
+  }
+
   const determineIcon = () => {
     if (icon && icon !== "default.png") {
       return { uri: icon }
@@ -50,7 +56,10 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
   return (
     <View style={styles.wholePage}>
       <View style={styles.logout}>
-        <IconButton icon='logout' width={40} color={g_THEME.colors.darkGrey} backgroundColor={"transparent"} onPress={handlelogout}></IconButton>
+        <Row>
+          <IconButton icon='edit' width={40} color={g_THEME.colors.darkGrey} backgroundColor={"transparent"} onPress={handleEdit}></IconButton>
+          <IconButton icon='logout' width={40} color={g_THEME.colors.darkGrey} backgroundColor={"transparent"} onPress={handlelogout}></IconButton>
+        </Row>
       </View>
       <Image source={determineIcon()} style={styles.photo} />
       <CustomText size={20} padding={0}>{username}</CustomText>
