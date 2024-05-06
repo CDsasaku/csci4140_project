@@ -19,11 +19,11 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
   const { user } = useSelector(userSelector);
   const dispatch: DispatchThunk = useDispatch();
   const { username, email, uid, icon } = user || {}; // Add a default empty object if user is null
-  const { items } = useSelector(itemSelector);
+  const { profileItems } = useSelector(itemSelector);
 
   useEffect(() => {
     if (!uid) return;
-    dispatch(itemAction.getItems(null, null, null, uid))
+    dispatch(itemAction.getItems(null, null, null, uid, true))
   }, [])
 
 
@@ -67,7 +67,7 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
       <View style={styles.bottomContainer}>
         <FlatList
           scrollEnabled={false}
-          data={items}
+          data={profileItems}
           renderItem={({ item }) =>
             <TouchableOpacity style={styles.item} onPress={() => handleItem(item.id)}>
               <Item item={item}></Item>

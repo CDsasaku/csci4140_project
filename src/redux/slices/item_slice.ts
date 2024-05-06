@@ -8,6 +8,7 @@ import { ItemStatus } from '../../constants/types';
 
 interface ItemState {
   items: Item[];
+  profileItems: Item[];
   item: Item | null;
   requests: Request[];
   request: Request | null;
@@ -20,6 +21,7 @@ interface ItemState {
 
 const initialState: ItemState = {
   items: [],
+  profileItems: [],
   item: null,
   requests: [],
   request: null,
@@ -49,6 +51,22 @@ const itemSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    // get profile items
+    getProfileItemsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getProfileItemsSuccess: (state, action: PayloadAction<Item[]>) => {
+      state.profileItems = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    getProfileItemsFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
 
     // get item
     getItemStart: (state) => {
@@ -257,6 +275,9 @@ export const {
   getItemsStart,
   getItemsSuccess,
   getItemsFailure,
+  getProfileItemsStart,
+  getProfileItemsSuccess,
+  getProfileItemsFailure,
   getItemStart,
   getItemSuccess,
   getItemFailure,

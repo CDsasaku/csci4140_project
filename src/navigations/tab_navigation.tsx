@@ -36,7 +36,7 @@ const TabNavigation: React.FC<RootProps<'HomeBottomBarNavigation'>> = (props) =>
   }
 
   const handleProfileStack = () => {
-    user && dispatch(itemAction.getItems(null, null, null, user.uid));
+    user && dispatch(itemAction.getItems(null, null, null, user.uid, true));
     props.navigation.navigate('ProfileStack');
   }
 

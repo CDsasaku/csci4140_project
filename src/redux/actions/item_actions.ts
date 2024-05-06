@@ -1,17 +1,20 @@
 import { AppThunk } from '../store/store';
-import { getItemsFailure, getItemsStart, getItemsSuccess, getItemStart, getItemSuccess, getItemFailure, createItemStart, createItemSuccess, createItemFailure, updateItemStart, updateItemSuccess, updateItemFailure, deleteItemStart, deleteItemSuccess, deleteItemFailure, getCategoryStart, getCategorySuccess, getCategoryFailure, getRequestsFailure, getRequestsStart, getRequestsSuccess, createRequestStart, createRequestSuccess, getRequestStart, getRequestFailure, getRequestSuccess, updateRequestStatusStart, updateRequestStatusSuccess, updateRequestStatusFailure, getAvailableItemsStart, getAvailableItemsSuccess, getAvailableItemsFailure, updateRequestsFailure, updateRequestsStart, updateRequestsSuccess, getSelectedItemIds  } from '../slices/item_slice';
+import { getItemsFailure, getItemsStart, getItemsSuccess, getItemStart, getItemSuccess, getItemFailure, createItemStart, createItemSuccess, createItemFailure, updateItemStart, updateItemSuccess, updateItemFailure, deleteItemStart, deleteItemSuccess, deleteItemFailure, getCategoryStart, getCategorySuccess, getCategoryFailure, getRequestsFailure, getRequestsStart, getRequestsSuccess, createRequestStart, createRequestSuccess, getRequestStart, getRequestFailure, getRequestSuccess, updateRequestStatusStart, updateRequestStatusSuccess, updateRequestStatusFailure, getAvailableItemsStart, getAvailableItemsSuccess, getAvailableItemsFailure, updateRequestsFailure, updateRequestsStart, updateRequestsSuccess, getSelectedItemIds, getProfileItemsSuccess  } from '../slices/item_slice';
 import apis from '../../api/api_service';
 import { Asset } from 'react-native-image-picker';
 import { navigateBack, navigateBackTwoPages } from '../../navigations/navigation_service';
 import { ItemStatus, RequestStatus } from '../../constants/types';
 
 class ItemAction {
-
-    getItems = (categoryId?: number | null, keyword?: string | null, status?: ItemStatus | null, uid?: number | null): AppThunk => async (dispatch) => {
+    getItems = (categoryId?: number | null, keyword?: string | null, status?: ItemStatus | null, uid?: number | null, isProfile?: boolean): AppThunk => async (dispatch) => {
         try {
             dispatch(getItemsStart());
             const items = await apis.item.getItems(categoryId, keyword, status, uid);
-            dispatch(getItemsSuccess(items));
+            if (isProfile) {
+                dispatch(getProfileItemsSuccess(items));
+            } else {
+                dispatch(getItemsSuccess(items));
+            }
         } catch (error) {
             console.log(error);
             dispatch(getItemsFailure(error as string));

@@ -41,7 +41,7 @@ type RootStackParamList = {
 
   //profile
   Profile: undefined;
-  EditProfile: undefined;
+  EditProfile: { uid: number };
 
   //stack
   HomeStack: undefined;
