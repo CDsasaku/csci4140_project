@@ -54,6 +54,13 @@ Below is an outline of the project's directory structure along with a descriptio
 # using npm
 npm run start
 
+user account:
+vincy@example.com
+test123321
+
+june@example.com 
+test123321
+
 ## System Building Procedure
 
 The system was built using the following procedure and key components:
