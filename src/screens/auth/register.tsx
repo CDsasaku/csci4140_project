@@ -6,6 +6,9 @@ import { RootProps } from '../../navigations/screen_navigation_props';
 import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 import userAction from '../../redux/actions/user_actions';
+import TextField from '../../components/molecules/text_field';
+import CustomButton from '../../components/atoms/button';
+import g_THEME from '../../theme/theme';
 
 const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
   const [email, setEmail] = useState('');
@@ -24,33 +27,33 @@ const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
       alert('Password should be at least 6 characters');
       return;
     }
-
+    if (username.length < 3) {
+      alert('Username should be at least 3 characters');
+      return;
+    }
 
     dispatch(userAction.register(username, email, password));
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
+      <TextField
+        hint="Username"
         value={username}
-        onChangeText={setUsername}
+        onChange={(e) => setUsername(e)}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+      <TextField
+        hint="Email"
         value={email}
-        onChangeText={setEmail}
+        onChange={setEmail}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
+      <TextField
+        hint="Password"
         value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+        onChange={setPassword}
+        secure
       />
-      <Button title="Register" onPress={handleRegister} />
+      <CustomButton text="Register" margin={0} width="100%" color={g_THEME.colors.darkGrey} borderRadius={5} onPress={handleRegister} />
     </View>
   );
 
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    gap: 20,
   },
   input: {
     width: '100%',

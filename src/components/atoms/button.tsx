@@ -8,15 +8,18 @@ interface CustomButtonProps {
     onPress: () => void;
     text: string;
     color?: string;
+    margin?: number;
+    width?: string;
+    borderRadius?: number;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ onPress, text, color }) => {
-
+const CustomButton: React.FC<CustomButtonProps> = ({ onPress, text, color, margin, width, borderRadius }) => {
     const styles = StyleSheet.create({
         button: {
-            borderRadius: 10,
+            borderRadius: borderRadius ?? 10,
             backgroundColor: color ?? g_THEME.colors.greyGreen,
-            margin: 5,
+            margin: margin ?? 5,
+            width: width ?? "auto",
         },
     });
 

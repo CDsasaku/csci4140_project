@@ -41,7 +41,7 @@ class UserApi {
                     password: password,
                     fcmToken: fcmToken
                 }
-                await this.user.api.post(this.api + "/login", jsonData)
+                await this.user.api.post(this.api + "login", jsonData)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.user);
@@ -68,7 +68,7 @@ class UserApi {
                         email: email,
                         password: password,
                     }
-                    await this.user.api.post(this.api + "/register", jsonData)
+                    await this.user.api.post(this.api + "register", jsonData)
                         .then((response) => {
                             const result = response.data;
                             resolve(result.user);
@@ -100,7 +100,7 @@ class UserApi {
                     "age": age
                 };
 
-                await this.user.api.put('/users', jsonData)
+                await this.user.api.put('users', jsonData)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.user);

@@ -10,7 +10,6 @@ class ItemAction {
     getItems = (categoryId?: number | null, keyword?: string | null, status?: ItemStatus | null, uid?: number | null): AppThunk => async (dispatch) => {
         try {
             dispatch(getItemsStart());
-            console.log("items list", categoryId, keyword, status, uid)
             const items = await apis.item.getItems(categoryId, keyword, status, uid);
             dispatch(getItemsSuccess(items));
         } catch (error) {

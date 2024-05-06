@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
@@ -8,6 +8,9 @@ import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 import itemAction from '../../redux/actions/item_actions';
 import usePushNotification from '../../notification/usePushNotification';
+import TextField from '../../components/molecules/text_field';
+import CustomButton from '../../components/atoms/button';
+import g_THEME from '../../theme/theme';
 
 const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
   const [email, setEmail] = useState('');
@@ -34,21 +37,20 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+      <Image source={require('../../assets/application_logo.png')} style={styles.photo} />
+      <TextField
+        hint="Email"
         value={email}
-        onChangeText={setEmail}
+        onChange={setEmail}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
+      <TextField
+        hint="Password"
         value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+        onChange={setPassword}
+        secure
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Register" onPress={handleRegister} />
+      <CustomButton text="Login" margin={0} width="100%" color={g_THEME.colors.darkGrey} borderRadius={5} onPress={handleLogin} />
+      <CustomButton text="Register" margin={0} width="100%" color={g_THEME.colors.darkGrey} borderRadius={5} onPress={handleRegister} />
     </View>
   );
 
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 20,
     padding: 16,
   },
   input: {
@@ -68,6 +71,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+  },
+  photo: {
+    width: '65%',
+    height: 40,
   },
 });
 

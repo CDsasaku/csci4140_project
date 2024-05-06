@@ -11,6 +11,7 @@ import itemAction from '../../redux/actions/item_actions';
 import g_THEME from '../../theme/theme';
 import Row from '../../components/atoms/row';
 import Item from '../../components/organisms/item';
+import IconButton from '../../components/atoms/icon_button';
 
 
 const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
@@ -28,6 +29,11 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
   const handleItem = (itemId: number) => {
     props.navigation.navigate('ItemDetail', { itemId: itemId });
   }
+
+  const handleAdd = () => {
+    props.navigation.navigate('AddOrEditItem', { isEdit: false });
+  }
+
     
   return (
     <View style={styles.wholePage}>
@@ -44,6 +50,9 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
           }
           numColumns={2}>
         </FlatList>
+      </View>
+      <View style={styles.add}>
+        <IconButton icon='add' width={40} color={g_THEME.colors.white} backgroundColor={g_THEME.colors.blue} onPress={handleAdd}></IconButton>
       </View>
     </View>
   );
