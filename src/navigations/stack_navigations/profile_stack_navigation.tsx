@@ -6,6 +6,7 @@ import EditProfileScreen from '../../screens/profile/edit_profile';
 import AddOrEditItem from '../../screens/home/add_edit_item';
 import ItemDetail from '../../screens/home/item_detail';
 import CheckRequestScreen from '../../screens/home/check_request';
+import RequsetDetailScreen from '../../screens/home/request_detail';
 
 const ProfileProps = createStackNavigator<RootStackParamList>();
 
@@ -19,6 +20,7 @@ export const ProfileStackNavigation = () => {
       <ProfileProps.Screen name="ItemDetail" component={ItemDetail} />
       <ProfileProps.Screen name="AddOrEditItem" component={AddOrEditItem} />
       <ProfileProps.Screen name="CheckRequest" component={CheckRequestScreen} />
+      <ProfileProps.Screen name="RequestDetail" component={RequsetDetailScreen} />
     </ProfileProps.Navigator>
   );
 }
