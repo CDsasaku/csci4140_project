@@ -20,6 +20,7 @@ import { API_ENDPOINT } from '../../api/apiConfig';
 import { navigateBackTwoPages } from '../../navigations/navigation_service';
 import RNPickerSelect from 'react-native-picker-select';
 import { userSelector } from '../../redux/slices/user_slice';
+import EditImage from '../../components/organisms/edit_image';
 
 const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
 
@@ -137,6 +138,7 @@ const AddOrEditItem: React.FC<RootProps<'AddOrEditItem'>> = (props) => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.innerContainer}>
+                {/* <EditImage media={media} setMedia={setMedia} /> */}
                 <TouchableOpacity onPress={handleImage}>
                     <View style={styles.image}>
                         {media ? <Image source={{ uri: typeof (media) == "string" ? API_ENDPOINT + media : media.uri }} style={styles.image} /> :

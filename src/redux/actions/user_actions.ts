@@ -1,12 +1,13 @@
 
 
-import { logoutUserStart, logoutUserSuccess, logoutUserFailure } from '../slices/user_slice';
+import { logoutUserStart, logoutUserSuccess, logoutUserFailure, updateUserFailure, updateUserStart, updateUserSuccess, userSelector } from '../slices/user_slice';
 
 import { loginUserFailure, loginUserStart, loginUserSuccess } from '../slices/user_slice';
 import { AppThunk } from '../store/store';
-import { navigate, navigateAndReset } from '../../navigations/navigation_service';
+import { navigate, navigateAndReset, navigateBack } from '../../navigations/navigation_service';
 import { User } from '../../models/user';
 import apis from '../../api/api_service';
+import { useSelector } from 'react-redux';
 
 class UserAction {
 
@@ -30,7 +31,7 @@ class UserAction {
             const user = await apis.user.userRegister(username, email, password);
             if (user) {
                 dispatch(loginUserSuccess(user));
-                navigate('Profile');    // todo: change the location
+                navigate('Profile');
             }
 
         } catch (error) {
@@ -49,6 +50,19 @@ class UserAction {
             console.log(error);
             dispatch(logoutUserFailure(error as string));
         }
+    }
+
+    updateUser = (username: string, email: string, uid: number): AppThunk => async (dispatch) => {
+        try {
+            dispatch(updateUserStart());
+            const user = await apis.user.updateUser(username, email, uid);
+            dispatch(updateUserSuccess(user));
+            navigateBack();
+        } catch (error) {
+            console.log(error);
+            dispatch(updateUserFailure(error as string));
+        }
+    
     }
 }
 

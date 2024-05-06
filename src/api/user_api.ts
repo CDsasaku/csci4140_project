@@ -108,24 +108,20 @@ class UserApi {
             });
         }
 
-    updateProfile = async (
+    updateUser = async (
         username: string,
-        name?: string,
-        nationality?: string,
-        gender?: string,
-        age?: number
+        email: string,
+        uid: number
         ): Promise<User> => {
         return new Promise(async (resolve, reject) => {
             try {
                 const jsonData = {
                     "username": username,
-                    "name": name,
-                    "nationality": nationality,
-                    "gender": gender,
-                    "age": age
-                };
+                    "email": email,
+                    "uid": uid,
+                }
 
-                await this.user.api.put('users', jsonData)
+                await this.user.api.post(this.api + "update", jsonData)
                     .then((response) => {
                         const result = response.data;
                         resolve(result.user);
