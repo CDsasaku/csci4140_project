@@ -1,6 +1,6 @@
 import React from 'react';
 import messaging from '@react-native-firebase/messaging';
-import {PermissionsAndroid, Platform} from 'react-native';
+import {PermissionsAndroid, Platform, ToastAndroid} from 'react-native';
 
 const usePushNotification = () => {
   const requestUserPermission = async () => {
@@ -38,6 +38,7 @@ const usePushNotification = () => {
         'A new message arrived! (FOREGROUND)',
         JSON.stringify(remoteMessage),
       );
+      ToastAndroid.show(remoteMessage.notification?.body?? "", ToastAndroid.SHORT);
     });
     return unsubscribe;
   }

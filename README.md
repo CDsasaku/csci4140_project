@@ -1,79 +1,69 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# CSCI4140_project
+Welcome to the CSCI4140 Project. This document provides an overview of the project's structure, key components, and development process.
+
+
+## Directory Structure and Functionality
+
+Below is an outline of the project's directory structure along with a description of the contents and functionality of each directory and file.
+
+- `/src` - contains source code
+   - `/api` - contains all controllers
+      - `/api_service.ts` - contain a class holding all api
+      - `/api.ts` - define the api
+      - `/apiConfig.ts` - contains api configuration
+      - `/interceptors.ts` - contains the interceptors for the axios request and response
+   - `/assets` - contains the media
+   - `/components` - contains all the components
+      - `/atom` - contains basic building blocks
+      - `/molecules` - contains a combination of multiple atoms
+      - `/organisms` - contains higher-level components that combine molecules and atoms to form more complete sections
+   - `/constants` - contains constant variable
+      - `/screen_dimension.ts` - define the screen dimension which can be used in the sizing of components
+      - `/types.ts` - contains the enum
+   - `/models` - contains model 
+   - `/navigations` - contains the navigation
+      - `/stack_navigations` - contains stack navigation for each bottom navbar item
+      - `/navigation_services.ts` - controls the navigation actions
+      - `/screen_navigation_props.ts` - define the navigation props
+      - `/stack_navigation.tsx` - handle the stack navigation
+      - `/tab_navigation.tsx` - handle the bottom navigation bar
+   - `/notification` - contains the push notification logic
+      - `/usePushNotification.ts` - handle the push notification logic
+   - `/redux` - contains the redux logic
+      - `/actions` - control the action on calling the apis
+      - `/slices` - store redux data
+      - `/store`- create the Redux store
+   - `/screens` - contains the screens
+      - `/auth` - contains the auth related screens
+      - `/home` - contains the home related screens
+      - `/message` - contains the message related screens
+      - `/notification` - contains the notification related screens
+      - `/profile` - contains the profile related screens
+   - `/theme` - contains the theme 
+   - `/utils` - contains the tools
+      - `/format_datetime.ts` - handle format datetime for showing
+      - `/image_picker.ts` - handle image selection
+      - `/local_storage.ts` - handle local storage
+      - `/validation.ts` - handle email validation
+- `/App.tsx` - entry file
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Start your Application
 
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
-
-```bash
 # using npm
-npm start
+npm run start
 
-# OR using Yarn
-yarn start
-```
+## System Building Procedure
 
-## Step 2: Start your Application
+The system was built using the following procedure and key components:
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+1. **Set up Development Environment** - Install Android Studio and configure the SDK, emulator, and necessary libraries for Kotlin Native Android development.
+2. **Define App Architecture** - Plan the app's UI components, data flow, navigation structure, and integration with external services or APIs.
+3. **Create the Project** - Start a new React Native project, configure project settings, and choose a project template.
+4. **Design User Interface** - Design the UI with figma and create the app's UI with the custom styles and theme.
+5. **Implement Functionality** - Write TypeScript code to handle user interactions, perform data operations, and integrate with services or APIs. 
+6. **Test and Debug** - Thoroughly test the app and fix any issues that arise.
+7. **Optimize Performance** - Identify and address performance bottlenecks, optimize resource usage, and improve responsiveness.
+8. **Handle App Lifecycle** - Implement proper handling of data persistence, device configuration changes, and background tasks.
+9. **Build and Package** - Compile the source code, resources, and assets into an APK file and configure build settings.

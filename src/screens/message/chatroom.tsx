@@ -92,6 +92,7 @@ const style = StyleSheet.create({
     marginVertical: 5,
   },
   input: {
+    color: 'black',
     backgroundColor: g_THEME.colors.white,
     borderRadius: 10,
     padding: 10,

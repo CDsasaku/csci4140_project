@@ -1,7 +1,7 @@
 import { AppThunk } from '../store/store';
-import { checkOrCreateConversationFailure, checkOrCreateConversationStart, checkOrCreateConversationSuccess, createMessageFailure, createMessageStart, createMessageSuccess, getConversationsFailure, getConversationsStart, getConversationsSuccess, getMessagesFailure, getMessagesStart, getMessagesSuccess  } from '../slices/message_slice';
+import { checkOrCreateConversationFailure, checkOrCreateConversationStart, checkOrCreateConversationSuccess, createMessageFailure, createMessageStart, createMessageSuccess, getConversationsFailure, getConversationsStart, getConversationsSuccess, getMessagesFailure, getMessagesStart, getMessagesSuccess } from '../slices/message_slice';
 import apis from '../../api/api_service';
-import { navigateBack } from '../../navigations/navigation_service';
+import { navigate, navigateBack } from '../../navigations/navigation_service';
 import { MessageTypes } from '../../constants/types';
 
 class MessageAction {
@@ -36,6 +36,12 @@ class MessageAction {
             dispatch(checkOrCreateConversationStart());
             const conversation = await apis.message.checkOrCreateConversation(uid1, uid2);
             dispatch(checkOrCreateConversationSuccess(conversation));
+
+            // Navigate to the chatroom if the conversation exists
+            if (conversation) {
+                navigate('Chatroom', { conversationId: conversation.id });
+            }
+
         } catch (error) {
             console.log(error);
             dispatch(checkOrCreateConversationFailure(error as string));
@@ -43,7 +49,7 @@ class MessageAction {
     }
 
     sendMessage = (
-        conversationId:number,
+        conversationId: number,
         uid: number,
         content: string,
         type: MessageTypes

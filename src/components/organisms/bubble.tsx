@@ -5,6 +5,8 @@ import { screenWidth } from '../../constants/screen_dimension';
 import CustomText from '../atoms/text';
 import g_THEME from '../../theme/theme';
 import { Message } from '../../models/message';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../../redux/slices/user_slice';
 
 interface BubbleProps {
     text: string;
@@ -12,9 +14,10 @@ interface BubbleProps {
 }
 
 const Bubble: React.FC<BubbleProps> = ({ text, message }) => {
+    const { user } = useSelector(userSelector);
 
     return (
-        <View style={message.uid == 2 ? styles.fromMeBubble : styles.fromOtherBubble}>
+        <View style={message.uid == user?.uid ? styles.fromMeBubble : styles.fromOtherBubble}>
             <CustomText color={g_THEME.colors.white}>{text}</CustomText>
         </View>
     );

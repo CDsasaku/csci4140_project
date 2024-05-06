@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, TextInput, Button, StyleSheet, ToastAndroid, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../redux/slices/user_slice';
 import { RootProps } from '../../navigations/screen_navigation_props';
@@ -8,6 +8,7 @@ import { DispatchThunk } from '../../redux/store/store';
 import { navigate } from '../../navigations/navigation_service';
 import itemAction from '../../redux/actions/item_actions';
 import usePushNotification from '../../notification/usePushNotification';
+import { Dialog } from 'react-native-paper';
 import TextField from '../../components/molecules/text_field';
 import CustomButton from '../../components/atoms/button';
 import g_THEME from '../../theme/theme';
@@ -25,8 +26,7 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
     dispatch(userAction.login(email, password, fcmToken ?? ''));
     dispatch(itemAction.getCategories());
     if (error) {
-      alert(error);
-      console.log('user', user);
+      ToastAndroid.show(error, ToastAndroid.SHORT);
       return;
     }
   };
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   input: {
+    color: 'black',
     width: '100%',
     height: 40,
     borderColor: 'gray',

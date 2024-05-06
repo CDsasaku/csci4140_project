@@ -13,7 +13,8 @@ class UserAction {
     login = (email: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
         try {
             dispatch(loginUserStart());
-            const user = await apis.user.userLogin(email, password, fcmToken);
+            const user = await apis.user.getProfile(2);
+            // const user = await apis.user.userLogin(email, password, fcmToken);
             if (user) {
                 dispatch(loginUserSuccess(user));
                 navigate('HomeBottomBarNavigation');

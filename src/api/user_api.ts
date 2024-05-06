@@ -13,9 +13,11 @@ class UserApi {
     getProfile = async (uid: number): Promise<User> => {
         return new Promise(async (resolve, reject) => {
             try {
-                await this.user.api.post(this.api + uid)
+                await this.user.api.get(this.api + uid)
                     .then((response) => {
+                        console.log(response);
                         const result = response.data;
+                        console.log(result)
                         resolve(result.user);
                     })
                     .catch((error) => {

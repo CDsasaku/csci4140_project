@@ -25,7 +25,6 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
     const item = useSelector(itemSelector).item;
     const { user } = useSelector(userSelector);
     const isOwner = item?.uid == user?.uid;
-    const { conversation } = useSelector(messageSelector);
 
     const dispatch: DispatchThunk = useDispatch();
 
@@ -44,7 +43,6 @@ const ItemDetail: React.FC<RootProps<'ItemDetail'>> = (props) => {
     const handleChat = async () => {
         if (item && user) {
             dispatch(messageAction.checkOrCreateConversation(item?.uid, user?.uid));
-            conversation && props.navigation.navigate('Chatroom', { conversationId: conversation?.id });
         }
     }
 
