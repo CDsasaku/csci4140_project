@@ -28,7 +28,7 @@ const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
       return;
     }
     if (username.length < 3) {
-      alert('Username should be at least 3 characters');
+      ToastAndroid.show('Username should be at least 3 characters', ToastAndroid.SHORT);
       return;
     }
 
@@ -39,17 +39,17 @@ const RegisterScreen: React.FC<RootProps<'Register'>> = (props) => {
     <View style={styles.container}>
       <TextField
         hint="Username"
-        value={username}
+        text={username}
         onChange={(e) => setUsername(e)}
       />
       <TextField
         hint="Email"
-        value={email}
+        text={email}
         onChange={setEmail}
       />
       <TextField
         hint="Password"
-        value={password}
+        text={password}
         onChange={setPassword}
         secure
       />

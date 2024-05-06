@@ -40,12 +40,12 @@ const LoginScreen: React.FC<RootProps<'Login'>> = (props) => {
       <Image source={require('../../assets/application_logo.png')} style={styles.photo} />
       <TextField
         hint="Email"
-        value={email}
+        text={email}
         onChange={setEmail}
       />
       <TextField
         hint="Password"
-        value={password}
+        text={password}
         onChange={setPassword}
         secure
       />

@@ -13,15 +13,15 @@ class UserAction {
     login = (email: string, password: string, fcmToken: string): AppThunk => async (dispatch) => {
         try {
             dispatch(loginUserStart());
-            const user = await apis.user.getProfile(2);
-            // const user = await apis.user.userLogin(email, password, fcmToken);
+            const user = await apis.user.userLogin(email, password, fcmToken);
             if (user) {
+                console.log("user", user)
                 dispatch(loginUserSuccess(user));
                 navigate('HomeBottomBarNavigation');
             }
         } catch (error) {
-            console.log(error);
-            dispatch(loginUserFailure(error as string));
+            console.log("test page errror", error);
+            dispatch(loginUserFailure("Login Failure"));
         }
     }
 
@@ -39,10 +39,10 @@ class UserAction {
         }
     }
 
-    logout = (username: string, password: string): AppThunk => async (dispatch) => {
+    logout = (email: string): AppThunk => async (dispatch) => {
         try {
             dispatch(logoutUserStart());
-            // await apis.auth.out();
+            await apis.user.userLogout(email);
             dispatch(logoutUserSuccess());
             navigateAndReset('Login');
         } catch (error) {

@@ -58,6 +58,29 @@ class UserApi {
         });
     }
 
+    userLogout = async (
+        email: string,
+        ): Promise<User> => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const jsonData = {
+                        email: email,
+                    }
+                    await this.user.api.post(this.api + "logout", jsonData)
+                        .then((response) => {
+                            const result = response.data;
+                            resolve(result.user);
+                        })
+                        .catch((error) => {
+                            const result = error.response.data;
+                            reject(result.message);
+                        });
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+
     userRegister = async (
         username: string,
         email: string,
