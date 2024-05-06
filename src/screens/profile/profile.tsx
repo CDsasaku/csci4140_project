@@ -15,9 +15,9 @@ import userAction from '../../redux/actions/user_actions';
 
 
 const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
-  const dispatch: DispatchThunk = useDispatch();
   const { user } = useSelector(userSelector);
-  const { username, email, uid, icon } = user;
+  const dispatch: DispatchThunk = useDispatch();
+  const { username, email, uid, icon } = user || {}; // Add a default empty object if user is null
   const { items } = useSelector(itemSelector);
 
   useEffect(() => {
@@ -35,11 +35,12 @@ const ProfileScreen: React.FC<RootProps<'Profile'>> = (props) => {
   }
 
   const handlelogout = () => {
+    if (!email) return;
     dispatch(userAction.logout(email));
   }
 
   const determineIcon = () => {
-    if (icon !== "default.png") {
+    if (icon && icon !== "default.png") {
       return { uri: icon }
     } 
     return require('../../assets/default_pfp.jpeg')
